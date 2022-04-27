@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 
 public class Game {
+	int rabu;
 	private Piece[][] playerHand;
 	private Piece[][] gameTable;
 	ArrayList<Corner> corners = new ArrayList<Corner>();

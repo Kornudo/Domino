@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class Game {
 	int rabu;
+	int rabu2;
+	int rabu3;
 	private Piece[][] playerHand;
 	private Piece[][] gameTable;
 	ArrayList<Corner> corners = new ArrayList<Corner>();

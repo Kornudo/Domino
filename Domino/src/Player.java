@@ -16,4 +16,8 @@ public abstract class Player {
 	}
 	
 	public abstract boolean addPiece();
+	
+	public Piece[][] getPlayerHand() {
+		return new Piece[10][10];
+	}
 }

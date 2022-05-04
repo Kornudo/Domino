@@ -22,7 +22,7 @@ class PlayerTests {
 		Piece[] hand = jogador.getPlayerHand();
 		assertEquals(7, hand.length);
 		
-		AI1.dealHand(jogo.getDeck());
+		AI1.dealHand(game.getDeck());
 		for(int i = 0; i < 7; i++) {
 			
 		}

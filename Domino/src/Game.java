@@ -2,16 +2,9 @@
 import java.util.ArrayList;
 
 public class Game {
-	int rabu;
-	int rabu2;
-	int rabu3;
-	private Piece[][] playerHand;
 	private Piece[][] gameTable;
-	ArrayList<Corner> corners = new ArrayList<Corner>();
-	
-	public boolean inHand() {
-		return false;
-	}
+	private ArrayList<Corner> corners = new ArrayList<Corner>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
 	public boolean collision() {
 		return false;
@@ -28,7 +21,10 @@ public class Game {
 		return false;
 	}
 	
-	public boolean addPiece(Piece a, Piece b) {
+	public void printTable() {
+		}
+	
+	public boolean endGame() {
 		return false;
 	}
 }

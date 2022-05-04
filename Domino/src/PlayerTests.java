@@ -7,8 +7,11 @@ import org.junit.jupiter.api.Test;
 class PlayerTests {
 	@Test
 	void testDealHand() {
-		ArrayList<Piece> deck = new ArrayList<>();
-		for(int i = 0; i < )
+		Game game = new Game();
+		ArrayList<Piece> deck = game.createDeck();
+		for(int i = 0; i < 4; i++) {
+			game.dealHand();
+		}
 		Player jogador = new Person();
 		Player AI1 = new Person();
 		Player AI2 = new AI();

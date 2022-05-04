@@ -1,11 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class Player {
-	private Piece[] playerHand;
-	
-	public ArrayList<Piece> dealHand(ArrayList<Piece> deck) {
-		return deck;
-	}
+	private Piece[] playerHand = new Piece[7];
 	
 	public boolean isPlayable(ArrayList<Corner> corners) {
 		return true;

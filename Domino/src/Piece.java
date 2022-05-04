@@ -6,4 +6,13 @@ public class Piece {
 	public boolean dual() {
 		return false;
 	}
+	
+	public int getSideA() {
+		return sideA;
+	}
+	
+	public int getSideB() {
+		return sideB;
+	}
+	
 }

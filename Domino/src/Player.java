@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public abstract class Player {
-	private Piece[][] playerHand;
+	private Piece[] playerHand;
 	
-	public void dealHand(){
-		
+	public ArrayList<Piece> dealHand(ArrayList<Piece> deck) {
+		return deck;
 	}
 	
 	public boolean isPlayable(ArrayList<Corner> corners) {
@@ -17,7 +17,7 @@ public abstract class Player {
 	
 	public abstract boolean addPiece();
 	
-	public Piece[][] getPlayerHand() {
-		return new Piece[10][10];
+	public Piece[] getPlayerHand() {
+		return playerHand;
 	}
 }

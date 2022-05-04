@@ -8,6 +8,7 @@ class PlayerTests {
 	@Test
 	void testDealHand() {
 		ArrayList<Piece> deck = new ArrayList<>();
+		for(int i = 0; i < )
 		Player jogador = new Person();
 		Player AI1 = new Person();
 		Player AI2 = new AI();

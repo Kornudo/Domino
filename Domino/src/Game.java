@@ -5,6 +5,7 @@ public class Game {
 	private Piece[][] gameTable;
 	private ArrayList<Corner> corners = new ArrayList<Corner>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Piece> deck;
 	
 	public boolean collision() {
 		return false;
@@ -26,5 +27,9 @@ public class Game {
 	
 	public boolean endGame() {
 		return false;
+	}
+	
+	public ArrayList<Piece> getDeck() {
+		return deck;
 	}
 }

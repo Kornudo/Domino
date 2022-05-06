@@ -86,5 +86,32 @@ class GameTests {
 		
 		assertEquals(3, findFirstPlayer());
 	}
+	
+	@Test
+	void testDealHand() {
+		Table table = new Table();
+		Player[] jogadores1 = {new Person(), new AI(), new AI(), new AI()};
+		
+		Game game1 = new Game(table, jogadores1);
+		game1.createDeck();
+		game1.dealHand();
+		// check if all players have 7 pieces
+		for (int i = 0; i < 4; i++) {
+			Piece[] hand = jogadores1[i].getPlayerHand();
+			assertEquals(7, hand.length);
+		}
+		
+		
+		// check if pieces do not repeat between players
+		for (int u = 0; u < 4; u++)
+			for (int o = 0; o < 4; o++) {
+				if (u == o) break;
+				for(int i = 0; i < 7; i++) 
+					for (int k = 0; k < 7; k++)
+						if (jogadores1[u].getPlayerHand()[i].getSideA() == jogadores1[o].getPlayerHand()[k].getSideA() 
+							&& jogadores1[u].getPlayerHand()[i].getSideB() == jogadores1[o].getPlayerHand()[k].getSideB())
+								fail();
+			}
+	}
 
 }

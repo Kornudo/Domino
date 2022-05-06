@@ -6,6 +6,10 @@ public class Game {
 	private Player[] players = new Player[4];
 	private ArrayList<Piece> deck = new ArrayList<Piece>();
 
+	public Game (Table gameTable, Player[] players) {
+		
+	}
+	
 	public ArrayList<Piece> createDeck(){
 		deck.add(new Piece(0, 0));
 		deck.add(new Piece(0, 1));
@@ -45,12 +49,8 @@ public class Game {
 		return deck;
 	}
 	
-	public boolean collision() {
-		return false;
-	}
-	
-	public ArrayList<Piece> dealHand(ArrayList<Piece> deck) {
-		return deck;
+	public Piece[] dealHand() {
+		return null;
 	}
 	
 	public int findFirstPlayer() {
@@ -65,6 +65,10 @@ public class Game {
 		}
 	
 	public boolean endGame() {
+		return false;
+	}
+	
+	public boolean handEmpty() {
 		return false;
 	}
 	

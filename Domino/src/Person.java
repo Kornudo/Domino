@@ -6,7 +6,7 @@ public class Person extends Player {
 		return false;
 	}
 	
-	public boolean inHand() {
+	public boolean inHand(int A, int B) {
 		// TODO Auto-generated method stub
 		return false;
 	}

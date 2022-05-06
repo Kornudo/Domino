@@ -3,7 +3,7 @@ public class Piece {
 	private int sideA;
 	private int sideB;
 	
-	Piece (int sideA, int sideB) {
+	public Piece(int sideA, int sideB) {
 		this.sideA = sideA;
 		this.sideB = sideB;
 	}

@@ -14,9 +14,8 @@ class PlayerTests {
 		Player AI1 = new AI();
 		Player AI2 = new AI();
 		Player AI3 = new AI();
-		Player AI4 = new AI();
 		Table table = new Table();
-		Player[] jogadores1 = {jogador, AI1, AI2, AI3, AI4};
+		Player[] jogadores1 = {jogador, AI1, AI2, AI3};
 		
 		Game game1 = new Game(table, jogadores1);
 		game1.createDeck();

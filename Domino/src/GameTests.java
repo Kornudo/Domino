@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class GameTests {
 
 	@Test
-	void test() {
+	void testFindFirstPlayer() {
 		
 		// testing findFirstPlayer
 		ArrayList<Player> playerList =  new ArrayList<Player>();

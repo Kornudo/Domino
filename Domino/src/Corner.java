@@ -4,7 +4,7 @@ public class Corner {
 	private int i;
 	private int j;
 	
-	public Corner () {
+	public Corner (String direction, int i, int j) {
 		
 	}
 	

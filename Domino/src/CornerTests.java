@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 class CornerTests {
 
 	@Test
-	void test() {
+	void testOuterSide() {
 		
 		Piece p1 = new Piece(6, 2);
 		Piece p2 = new Piece(3, 5);

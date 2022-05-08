@@ -113,5 +113,36 @@ class GameTests {
 								fail();
 			}
 	}
+	
+	@Test
+	void endGame() { 
+		Table table = new Table();
+		Player[] jogadores1 = {new Person(), new AI(), new AI(), new AI()};
+		
+		// one player as a pice but cant play it; game ends
+		Piece[] hand = {new Piece(5, 3)};
+		jogadores1[0].setPlayerHand(hand);
+		
+		table.addPiece(23, 23, new Piece(6, 6));
+		table.addCorner(new Corner("Left", 22, 23));
+		
+		Game game1 = new Game(table, jogadores1);
+		
+		assertTrue(game1.endGame());
+		
+		// there are possible plays; game continues
+		hand[0] = new Piece(6, 3);
+		jogadores1[0].setPlayerHand(hand);
+		game1 = new Game(table, jogadores1);
+		
+		assertFalse(game1.endGame());
+		
+		// all hands are empty; game ends
+		hand[0] = null;
+		jogadores1[0].setPlayerHand(hand);
+		game1 = new Game(table, jogadores1);
+		
+		assertTrue(game1.endGame());
+	}
 
 }

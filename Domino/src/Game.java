@@ -61,9 +61,6 @@ public class Game {
 		return false;
 	}
 	
-	public void printTable() {
-		}
-	
 	public boolean endGame() {
 		return false;
 	}

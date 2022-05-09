@@ -5,7 +5,9 @@ public class Corner {
 	private int j;
 	
 	public Corner (String direction, int i, int j) {
-		
+		this.direction = direction;
+		this.i = i;
+		this.j = j;
 	}
 	
 	public int outerSide() {	

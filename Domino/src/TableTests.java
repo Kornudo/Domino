@@ -7,6 +7,8 @@ public class TableTests {
 	
 	@Test
 	void testIsPlayable() {
+		
+		// testing isPlayable
 		Player jogador = new Person();
 		Player AI1 = new AI();
 		Player AI2 = new AI();
@@ -35,6 +37,8 @@ public class TableTests {
 	}
 	
 	void testCollision() {
+		
+		// testing collision
 		Table table = new Table();
 		table.addPiece(15, 15, null);
 		table.addPiece(14, 15, null);

@@ -1,6 +1,7 @@
 
 public abstract class Player {
 	private Piece[] playerHand = new Piece[7];
+	private int size = 7;
 	
 	public abstract boolean addPiece();
 	
@@ -18,5 +19,9 @@ public abstract class Player {
 	public Piece[] setPlayerHand(Piece[] playerHand) {
 		this.playerHand = playerHand;
 		return playerHand;
-	}	
+	}
+	
+	public int reduceSize() {
+		return this.size--;
+	}
 }

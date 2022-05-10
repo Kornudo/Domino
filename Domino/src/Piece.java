@@ -9,6 +9,9 @@ public class Piece {
 	}
 	
 	public boolean dual() {
+		if(sideA == sideB) {
+			return true;
+		}
 		return false;
 	}
 	
@@ -19,5 +22,4 @@ public class Piece {
 	public int getSideB() {
 		return sideB;
 	}
-	
 }

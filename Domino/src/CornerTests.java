@@ -20,10 +20,10 @@ class CornerTests {
 		
 		// sideA is outerSide in -> left/up
 		// sideB is outerSide in -> right/down
-		assertEquals(p1.getSideA(), c1.outerSide());
-		assertEquals(p2.getSideB(), c2.outerSide());
-		assertEquals(p3.getSideA(), c3.outerSide());
-		assertEquals(p4.getSideB(), c4.outerSide());
+		assertEquals(p1.getSideA(), c1.outerSide(p1));
+		assertEquals(p2.getSideB(), c2.outerSide(p2));
+		assertEquals(p3.getSideA(), c3.outerSide(p3));
+		assertEquals(p4.getSideB(), c4.outerSide(p4));
 	}
 
 }

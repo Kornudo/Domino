@@ -4,7 +4,10 @@ public abstract class Player {
 	
 	public abstract boolean addPiece();
 	
-	public boolean handEmpty() {
+	public boolean handEmpty() {	
+		if(playerHand.length == 0) {
+			return true;
+		}
 		return false;
 	}
 	

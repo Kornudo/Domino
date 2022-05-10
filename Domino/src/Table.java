@@ -2,11 +2,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Table {
-	private int TABLE_SIDE = 50; 
+	private int TABLE_SIDE = 60; 
 	
-	Piece[][] pieces = new Piece[31][31];
+	Piece[][] pieces = new Piece[30][30];
 	String[][] print = new String[TABLE_SIDE][TABLE_SIDE];
 	ArrayList<Corner> corners = new ArrayList<Corner>();
+	
+	public Table () {
+		for (int i = 0; i < TABLE_SIDE; i++) {
+			for (int u = 0; i < TABLE_SIDE; i++) {
+				print[i][u]= " ";
+			}
+		}
+	}
 	
 	public boolean isPlayable(Player[] players) {
 		return true;
@@ -34,6 +42,7 @@ public class Table {
 	
 	public void addPiece(int i, int j, Piece piece) {
 		pieces[i][j] = piece;
+		
 	}
 	
 	

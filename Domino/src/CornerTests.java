@@ -7,6 +7,7 @@ class CornerTests {
 	@Test
 	void testOuterSide() {
 		
+		// testing outerSide
 		Piece p1 = new Piece(6, 2);
 		Piece p2 = new Piece(3, 5);
 		Piece p3 = new Piece(1, 4);
@@ -17,8 +18,8 @@ class CornerTests {
 		Corner c3 = new Corner("up", 5, 8);
 		Corner c4 = new Corner("down", 7, 3);
 		
-		// sideA -> left/up
-		// sideB -> right/down
+		// sideA is outerSide in -> left/up
+		// sideB is outerSide in -> right/down
 		assertEquals(p1.getSideA(), c1.outerSide());
 		assertEquals(p2.getSideB(), c2.outerSide());
 		assertEquals(p3.getSideA(), c3.outerSide());

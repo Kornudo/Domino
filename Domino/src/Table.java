@@ -5,7 +5,7 @@ public class Table {
 	
 	Piece[][] pieces = new Piece[30][30];
 	String[][] print = new String[TABLE_SIDE][TABLE_SIDE];
-	ArrayList<Corner> corners = new ArrayList<Corner>();
+	static ArrayList<Corner> corners = new ArrayList<Corner>();
 	
 	public Table () {
 		for (int i = 0; i < TABLE_SIDE; i++) {
@@ -13,6 +13,18 @@ public class Table {
 				print[i][u]= " ";
 			}
 		}
+	}
+	
+	public static boolean existCorner(int A, int B) {
+		
+		for(int i = 0; i < corners.size(); i++) {
+			int cA = corners.get(i).getPiece().getSideA(); 
+			int cB = corners.get(i).getPiece().getSideB();
+			if((cA == A && cB == B) || (cB == B && cA == A)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean isPlayable(Player[] players) {
@@ -57,7 +69,15 @@ public class Table {
 		
 	}
 	
+	public Piece[][] getPieces() {
+		return pieces;
+	}
 	
+	public Piece[][] setPieces(Piece[][] pieces) {
+		this.pieces = pieces;
+		return pieces;
+	}
+		
 	public static void main(String[] args) {
 		Table table = new Table();
 		table.addPiece(15, 15, null);

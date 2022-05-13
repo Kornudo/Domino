@@ -2,9 +2,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Table {
+
 	Piece[][] pieces = new Piece[5][9];
 	String[][] print = new String[30][28];
 	ArrayList<Corner> corners = new ArrayList<Corner>();
+
 	
 	public Table () {
 		print[0][0] = "┌";
@@ -24,6 +26,18 @@ public class Table {
 		print[29][26]= "┘";
 		print[29][27]= "\r\n";
 	
+	}
+	
+	public static boolean existCorner(int A, int B) {
+		
+		for(int i = 0; i < corners.size(); i++) {
+			int cA = corners.get(i).getPiece().getSideA(); 
+			int cB = corners.get(i).getPiece().getSideB();
+			if((cA == A && cB == B) || (cB == B && cA == A)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean isPlayable(Player[] players) {
@@ -85,7 +99,15 @@ public class Table {
 		}
 	}
 	
+	public Piece[][] getPieces() {
+		return pieces;
+	}
 	
+	public Piece[][] setPieces(Piece[][] pieces) {
+		this.pieces = pieces;
+		return pieces;
+	}
+		
 	public static void main(String[] args) {
 		Table table = new Table();
 		table.addPiece(2, 4, new Piece(6, 6), null);

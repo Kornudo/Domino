@@ -11,10 +11,9 @@ public class Game {
 	}
 	
 	public ArrayList<Piece> createDeck(){
-		int combinations;
+		
 		for(int i = 0; i < 7; i++) {
-			combinations = i;
-			for(int j = combinations; j < 7; j++) {
+			for(int j = i; j < 7; j++) {
 				deck.add(new Piece(i, j));		
 			}
 		}

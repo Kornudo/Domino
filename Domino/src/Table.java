@@ -1,18 +1,28 @@
 import java.util.ArrayList;
 
 public class Table {
-	private int TABLE_SIDE = 60; 
-	
-	Piece[][] pieces = new Piece[30][30];
-	String[][] print = new String[TABLE_SIDE][TABLE_SIDE];
+	Piece[][] pieces = new Piece[5][9];
+	String[][] print = new String[30][28];
 	ArrayList<Corner> corners = new ArrayList<Corner>();
 	
 	public Table () {
-		for (int i = 0; i < TABLE_SIDE; i++) {
-			for (int u = 0; i < TABLE_SIDE; i++) {
-				print[i][u]= " ";
+		print[0][0] = "┌";
+		for (int j = 1; j < 26; j++) print[0][j]= "─";
+		print[0][26]= "┐";
+		print[0][27]= "\r\n";
+		for (int i = 1; i < 29; i++) {
+			print[i][0]= "│";
+			for (int j = 1; j < 26; j++) {
+				print[i][j]= " ";
 			}
+			print[i][26]= "│";
+			print[i][27]= "\r\n";
 		}
+		print[29][0] = "└";
+		for (int j = 1; j < 26; j++) print[29][j]= "─";
+		print[29][26]= "┘";
+		print[29][27]= "\r\n";
+	
 	}
 	
 	public boolean isPlayable(Player[] players) {
@@ -37,30 +47,70 @@ public class Table {
 	}
 	
 	public void printTable() {
-		for (int i = 0; i < 100; i++) {
-			System.out.print(".");
-		}
-		
-		for (int i = 0; i < 31; i++) 
-			for (int j = 0; j < 31; j++) {
-				
+		for (int i = 0; i < 30; i++) {
+			for (int j = 0; j < 28; j++) {
+				System.out.print(print[i][j]);
 			}
-		
+		}
 	}
 	
 	public void addCorner(Corner corner) {
 		corners.add(corner);
 	}
 	
-	public void addPiece(int i, int j, Piece piece) {
+	public void newCorner(int i, int j, Piece piece, Corner corner) { // i and j piece position; corner = old corner 
+		switch (corner.getDirection()) {
+			case "left":
+				addCorner(new Corner("left", i, j - 1, piece));
+			case "up":
+				addCorner(new Corner("up", i + 1, j, piece));
+			case "right":
+				addCorner(new Corner("right", i, j + 1, piece));
+			case "down":
+				addCorner(new Corner("down", i - 1, j, piece));
+		}
+	}
+	
+	public void addPiece(int i, int j, Piece piece, Corner corner) { //SECALHAR PODEMOS TIRAR A VAR PIECE DO CORNER E POMOS COMO VAR O VALOR DO OUTERSIDE E ASSIM N PRECISAMOS DO METODO OUTER SIDE
 		pieces[i][j] = piece;
 		
+		if (corner == null) {
+			print[17][13] = "6";
+			print[15][13] = "-";
+			print[13][13] = "6";
+			addCorner(new Corner("left", i, j - 1, piece));
+			addCorner(new Corner("up", i + 1, j, piece));
+			addCorner(new Corner("right", i, j + 1, piece));
+			addCorner(new Corner("down", i - 1, j, piece));
+		}
+		else if (piece.getSideA() == corner.outerSide()) { 
+			print[i * 7 + 1][j * 3 + 2] = String.valueOf(piece.getSideA());
+			print[i * 7 + 1][j * 3 + 1] = String.valueOf(piece.getSideB());
+			corners.remove(corner);
+			newCorner(i, j, piece, corner);
+		} // if placed on a vertical double ^v^
+		else {
+			print[i * 7 + 1][j * 3 + 1] = String.valueOf(piece.getSideA());
+			print[i * 7 + 1][j * 3 + 2] = String.valueOf(piece.getSideB());
+			corners.remove(corner);
+			newCorner(i, j, piece, corner);
+		}
 	}
 	
 	
 	public static void main(String[] args) {
 		Table table = new Table();
-		table.addPiece(15, 15, null);
+		table.addPiece(2, 4, new Piece(6, 6), null);
+		
+		table.addPiece(2, 3, new Piece(3, 6), table.corners.get(0));
+		table.addPiece(2, 2, new Piece(4, 3), table.corners.get(1));
+		table.addPiece(2, 1, new Piece(4, 2), table.corners.get(2));
+		table.addPiece(2, 0, new Piece(3, 2), table.corners.get(3));
+		
+		table.addPiece(2, 3, new Piece(3, 6), table.corners.get(0));
+		table.addPiece(2, 2, new Piece(4, 3), table.corners.get(1));
+		table.addPiece(2, 1, new Piece(4, 2), table.corners.get(2));
+		table.addPiece(2, 0, new Piece(3, 2), table.corners.get(3));
 		table.printTable();
 	}
 }

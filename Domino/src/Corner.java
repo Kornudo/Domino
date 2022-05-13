@@ -30,4 +30,8 @@ public class Corner {
 				return -1;
 		}
 	}
+	
+	public String getDirection() {
+		return direction;
+	}
 }

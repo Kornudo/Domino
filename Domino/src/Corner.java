@@ -3,14 +3,16 @@ public class Corner {
 	private String direction;
 	private int i;
 	private int j;
+	private Piece piece;
 	
-	public Corner (String direction, int i, int j) {
+	public Corner (String direction, int i, int j, Piece piece) {
 		this.direction = direction;
 		this.i = i;
 		this.j = j;
+		this.piece = piece;
 	}
 	
-	public int outerSide(Piece piece) {
+	public int outerSide() {
 		switch (direction) {
 		
 			case "left":
@@ -28,5 +30,9 @@ public class Corner {
 	
 	public String getDirection() {
 		return direction;
+	}
+	
+	public Piece getPiece() {
+		return piece;
 	}
 }

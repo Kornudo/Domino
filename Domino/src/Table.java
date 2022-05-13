@@ -28,20 +28,31 @@ public class Table {
 	
 	}
 	
-	public static boolean existCorner(int A, int B) {
-		
+	public Corner existCorner(int A, int B) {
 		for(int i = 0; i < corners.size(); i++) {
 			int cA = corners.get(i).getPiece().getSideA(); 
 			int cB = corners.get(i).getPiece().getSideB();
 			if((cA == A && cB == B) || (cB == B && cA == A)) {
-				return true;
+				return corners.get(i);
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	public boolean isPlayable(Player[] players) {
-		return true;
+		for(int i = 0; i < players.length; i++) { // loop through all existent players
+			Piece[] pH = players[i].getPlayerHand();
+			for(int j = 0; j < pH.length; j++) { // loop through the hand of all existent players
+				for(int k = 0; k < corners.size(); k++) { // loop through corner arraylist
+					int A = corners.get(k).getPiece().getSideA(); // get corner from corner arraylist | get Piece from corner | get side values
+					int B = corners.get(k).getPiece().getSideB();
+					if((pH[j].getSideA() == A) || (pH[j].getSideB() == B)) {
+						return true;
+					}			
+				}
+			}
+		}
+		return false;
 	}
 	
 	public boolean collision(Corner corner) {

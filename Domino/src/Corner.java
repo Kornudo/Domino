@@ -4,17 +4,18 @@ public class Corner {
 	private int i;
 	private int j;
 	private Piece piece;
+	private int offset; // needed to print because of offset caused by the diffrence in sizes between vertical and horizontal pieces
 	
-	public Corner (String direction, int i, int j, Piece piece) {
+	public Corner (String direction, int i, int j, Piece piece, int offset) {
 		this.direction = direction;
 		this.i = i;
 		this.j = j;
 		this.piece = piece;
+		this.offset = offset;
 	}
 	
 	public int outerSide() {
 		switch (direction) {
-		
 			case "left":
 				return piece.getSideA();
 			case "up":
@@ -34,5 +35,9 @@ public class Corner {
 	
 	public Piece getPiece() {
 		return piece;
+	}
+	
+	public int getOffset() {
+		return offset;
 	}
 }

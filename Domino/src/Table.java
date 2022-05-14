@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Table {
 
 	Piece[][] pieces = new Piece[5][9];
-	String[][] print = new String[30][28];
+	String[][] print = new String[31][28];
 	ArrayList<Corner> corners = new ArrayList<Corner>();
 
 	
@@ -13,7 +13,7 @@ public class Table {
 		for (int j = 1; j < 26; j++) print[0][j]= "─";
 		print[0][26]= "┐";
 		print[0][27]= "\r\n";
-		for (int i = 1; i < 29; i++) {
+		for (int i = 1; i < 30; i++) {
 			print[i][0]= "│";
 			for (int j = 1; j < 26; j++) {
 				print[i][j]= " ";
@@ -21,18 +21,18 @@ public class Table {
 			print[i][26]= "│";
 			print[i][27]= "\r\n";
 		}
-		print[29][0] = "└";
-		for (int j = 1; j < 26; j++) print[29][j]= "─";
-		print[29][26]= "┘";
-		print[29][27]= "\r\n";
+		print[30][0] = "└";
+		for (int j = 1; j < 26; j++) print[30][j]= "─";
+		print[30][26]= "┘";
+		print[30][27]= "\r\n";
 	
 	}
 	
-	public Corner existCorner(int A, int B) {
+	public Corner findCorner(int A, int B) { //looks for a corner with sides A and B,returns the found corner or returns null if no corner is found
 		for(int i = 0; i < corners.size(); i++) {
 			int cA = corners.get(i).getPiece().getSideA(); 
 			int cB = corners.get(i).getPiece().getSideB();
-			if((cA == A && cB == B) || (cB == B && cA == A)) {
+			if((cA == A && cB == B) || (cB == A && cA == B)) {
 				return corners.get(i);
 			}
 		}
@@ -60,7 +60,7 @@ public class Table {
 	}
 	
 	public void printTable() {
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 31; i++) {
 			for (int j = 0; j < 28; j++) {
 				System.out.print(print[i][j]);
 			}
@@ -74,13 +74,19 @@ public class Table {
 	public void newCorner(int i, int j, Piece piece, Corner corner) { // i and j piece position; corner = old corner 
 		switch (corner.getDirection()) {
 			case "left":
-				addCorner(new Corner("left", i, j - 1, piece));
+				addCorner(new Corner("left", i, j - 1, piece, corner.getOffset()));
+				break;
 			case "up":
-				addCorner(new Corner("up", i + 1, j, piece));
+				addCorner(new Corner("up", i + 1, j, piece, corner.getOffset()));
+				break;
 			case "right":
-				addCorner(new Corner("right", i, j + 1, piece));
+				addCorner(new Corner("right", i, j + 1, piece, corner.getOffset()));
+				break;
 			case "down":
-				addCorner(new Corner("down", i - 1, j, piece));
+				addCorner(new Corner("down", i - 1, j, piece, corner.getOffset()));
+				break;
+			default:
+				return;
 		}
 	}
 	
@@ -88,26 +94,68 @@ public class Table {
 		pieces[i][j] = piece;
 		
 		if (corner == null) {
-			print[17][13] = "6";
-			print[15][13] = "-";
-			print[13][13] = "6";
-			addCorner(new Corner("left", i, j - 1, piece));
-			addCorner(new Corner("up", i + 1, j, piece));
-			addCorner(new Corner("right", i, j + 1, piece));
-			addCorner(new Corner("down", i - 1, j, piece));
+			print[i * 6 + 5][j * 3 + 1] = "6";
+			print[i * 6 + 3][j * 3 + 1] = "-";
+			print[i * 6 + 1][j * 3 + 1] = "6";
+			addCorner(new Corner("left", i, j - 1, piece, 1));
+			addCorner(new Corner("up", i + 1, j, piece, 0));
+			addCorner(new Corner("right", i, j + 1, piece, 0));
+			addCorner(new Corner("down", i - 1, j, piece, 0));
+			return;
 		}
-		else if (piece.getSideA() == corner.outerSide()) { 
-			print[i * 7 + 1][j * 3 + 2] = String.valueOf(piece.getSideA());
-			print[i * 7 + 1][j * 3 + 1] = String.valueOf(piece.getSideB());
-			corners.remove(corner);
-			newCorner(i, j, piece, corner);
-		} // if placed on a vertical double ^v^
-		else {
-			print[i * 7 + 1][j * 3 + 1] = String.valueOf(piece.getSideA());
-			print[i * 7 + 1][j * 3 + 2] = String.valueOf(piece.getSideB());
-			corners.remove(corner);
-			newCorner(i, j, piece, corner);
-		}
+		
+		//CONSIGO SIMPLIfiCAR PK O LEFT E O RIGHT REPETEM MUITAS COISAS
+		switch (corner.getDirection()) {
+			case "left" :
+				if (piece.dual()) {
+					print[i * 6 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideA());
+					print[i * 6 + 3][j * 3 + 1 + corner.getOffset()] = "-";
+					print[i * 6 + 5][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+					corners.remove(corner);
+					addCorner(new Corner("left", i, j - 1, piece, corner.getOffset() + 1));
+					addCorner(new Corner("up", i + 1, j, piece, corner.getOffset()));
+					addCorner(new Corner("down", i - 1, j, piece, corner.getOffset()));
+				}
+				else {
+					print[i * 7 + 1][j * 3 + corner.getOffset()] = String.valueOf(piece.getSideA());
+					print[i * 7 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+					corners.remove(corner);
+					newCorner(i, j, piece, corner);
+				}
+				break;
+			case "right" :
+				if (piece.dual()) {
+					print[i * 6 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideA());
+					print[i * 6 + 3][j * 3 + 1 + corner.getOffset()] = "-";
+					print[i * 6 + 5][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+					corners.remove(corner);
+					addCorner(new Corner("up", i + 1, j, piece, corner.getOffset()));
+					addCorner(new Corner("right", i, j + 1, piece, corner.getOffset() + 1));
+					addCorner(new Corner("down", i - 1, j, piece, corner.getOffset()));
+				}
+				else {
+					print[i * 7 + 1][j * 3 + corner.getOffset()] = String.valueOf(piece.getSideA());
+					print[i * 7 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+					corners.remove(corner);
+					newCorner(i, j, piece, corner);
+				}
+				break;
+			case "up" :
+				print[i * 6 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideA());
+				print[i * 6 + 3][j * 3 + 1 + corner.getOffset()] = "-";
+				print[i * 6 + 5][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+				corners.remove(corner);
+				newCorner(i, j, piece, corner);
+				break;
+			case "down" :
+				print[i * 6 + 1][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideA());
+				print[i * 6 + 3][j * 3 + 1 + corner.getOffset()] = "-";
+				print[i * 6 + 5][j * 3 + 1 + corner.getOffset()] = String.valueOf(piece.getSideB());
+				corners.remove(corner);
+				newCorner(i, j, piece, corner);
+				break;
+			}
+		
 	}
 	
 	public Piece[][] getPieces() {
@@ -123,15 +171,33 @@ public class Table {
 		Table table = new Table();
 		table.addPiece(2, 4, new Piece(6, 6), null);
 		
-		table.addPiece(2, 3, new Piece(3, 6), table.corners.get(0));
-		table.addPiece(2, 2, new Piece(4, 3), table.corners.get(1));
-		table.addPiece(2, 1, new Piece(4, 2), table.corners.get(2));
-		table.addPiece(2, 0, new Piece(3, 2), table.corners.get(3));
+		// left
+		table.addPiece(2, 3, new Piece(3, 6), table.findCorner(6, 6));
+		table.addPiece(2, 2, new Piece(4, 3), table.findCorner(3, 6));
+		table.addPiece(2, 1, new Piece(2, 4), table.findCorner(4, 3));
+		table.addPiece(2, 0, new Piece(3, 2), table.findCorner(2, 4));
 		
-		table.addPiece(2, 3, new Piece(3, 6), table.corners.get(0));
-		table.addPiece(2, 2, new Piece(4, 3), table.corners.get(1));
-		table.addPiece(2, 1, new Piece(4, 2), table.corners.get(2));
-		table.addPiece(2, 0, new Piece(3, 2), table.corners.get(3));
+		//left double
+//		table.addPiece(2, 2, new Piece(3, 3), table.findCorner(3, 6));
+//		table.addPiece(2, 1, new Piece(4, 3), table.findCorner(3, 3));
+//		table.addPiece(2, 0, new Piece(4, 4), table.findCorner(3, 4));
+		//up
+		table.addPiece(1, 4, new Piece(1, 6), table.findCorner(6, 6));
+		table.addPiece(0, 4, new Piece(5, 1), table.findCorner(6, 1));
+		//right
+		table.addPiece(2, 5, new Piece(6, 2), table.findCorner(6, 6));
+		table.addPiece(2, 6, new Piece(2, 5), table.findCorner(6, 2));
+		table.addPiece(2, 7, new Piece(5, 4), table.findCorner(2, 5));
+		table.addPiece(2, 8, new Piece(4, 6), table.findCorner(5, 4));
+		
+		//right double
+//		table.addPiece(2, 2, new Piece(2, 2), table.findCorner(6, 2));
+		//table.addPiece(2, 1, new Piece(4, 3), table.findCorner(2, 2));
+		//table.addPiece(2, 0, new Piece(4, 4), table.findCorner(3, 4));
+		//down
+		table.addPiece(3, 4, new Piece(6, 0), table.findCorner(6, 6));
+		table.addPiece(4, 4, new Piece(0, 1), table.findCorner(6, 0));
+		
 		table.printTable();
 	}
 }

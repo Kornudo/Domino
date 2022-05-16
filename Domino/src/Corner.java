@@ -3,15 +3,22 @@ public class Corner {
 	private String direction;
 	private int i;
 	private int j;
+	private int iPrint;
+	private int jPrint;
 	private Piece piece;
-	private int offset; // needed to print because of offset caused by the diffrence in sizes between vertical and horizontal pieces
+
+//	public Corner (String direction, int i, int j, Piece piece) {
+//		this.direction = direction;
+//		this.i = i;
+//		this.j = j;
+//		this.piece = piece;
+//	}
 	
-	public Corner (String direction, int i, int j, Piece piece, int offset) {
+	public Corner (String direction, int iPrint, int jPrint, Piece piece) {
 		this.direction = direction;
-		this.i = i;
-		this.j = j;
+		this.iPrint = iPrint;
+		this.jPrint = jPrint;
 		this.piece = piece;
-		this.offset = offset;
 	}
 	
 	public int outerSide() {
@@ -37,7 +44,11 @@ public class Corner {
 		return piece;
 	}
 	
-	public int getOffset() {
-		return offset;
+	public int getiPrint() {
+		return iPrint;
+	}
+	
+	public int getjPrint() {
+		return jPrint;
 	}
 }

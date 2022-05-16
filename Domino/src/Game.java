@@ -1,6 +1,6 @@
-
 import java.util.ArrayList;
 import java.util.Random;
+
 public class Game {
 	private Table gameTable;
 	private Player[] players = new Player[4];
@@ -45,6 +45,10 @@ public class Game {
 			limit--;
 		}
 		return temp;
+	}
+	
+	public boolean addPiece() {
+		return false;
 	}
 	
 	

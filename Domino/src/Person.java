@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Person extends Player {
 
-	public boolean addPiece() {
+	public boolean addPiece(Table table) {
 		// TODO Auto-generated method stub
 		
 		@SuppressWarnings("resource")
@@ -11,7 +11,8 @@ public class Person extends Player {
 		int first_in = scan.nextInt();
 		int sec_in = scan.nextInt();
 		
-		if(!inHand(first_in, sec_in)) { // if no piece is registered
+		Piece p = inHand(first_in, sec_in);
+		if(p == null) { // if no piece is registered
 			System.out.println("NO PIECE IN HAND! TRY AGAIN!");
 			return false; 
 		}
@@ -22,23 +23,17 @@ public class Person extends Player {
 		int loc_A = scan.nextInt();
 		int loc_B = scan.nextInt();
 		
-		if(!Table.existCorner(loc_A, loc_B)) {
+		Corner c = table.findCorner(loc_A, loc_B);	
+		if(c == null) {
 			System.out.println("NO CORNER IN GAME! TRY AGAIN!");
 			return false; 
 		}
 		
-		
-		Pieces[][] pieces = Table.getPieces();
-		
-		
-		
-		
-		
-		
-		return false;
+		table.addPiece(c.getI(), c.getJ(), p, c);
+		return true;
 	}
 	
-	public boolean inHand(int A, int B) {
+	public Piece inHand(int A, int B) {
 		// TODO Auto-generated method stub
 		
 		Piece[] pH = getPlayerHand();
@@ -47,9 +42,9 @@ public class Person extends Player {
 			int sideA = pH[i].getSideA();
 			int sideB = pH[i].getSideB();
 			if((A == sideA && B == sideB) || (A == sideB && B == sideA)) {
-				return true;
+				return pH[i];
 			}
 		}
-		return false;
+		return null;
 	}
 }

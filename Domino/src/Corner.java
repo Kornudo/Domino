@@ -7,12 +7,12 @@ public class Corner {
 	private int jPrint;
 	private Piece piece;
 
-//	public Corner (String direction, int i, int j, Piece piece) {
-//		this.direction = direction;
-//		this.i = i;
-//		this.j = j;
-//		this.piece = piece;
-//	}
+	public Corner (int i, int j, String direction, Piece piece) {
+		this.i = i;
+		this.j = j;
+		this.direction = direction;
+		this.piece = piece;
+	}
 	
 	public Corner (String direction, int iPrint, int jPrint, Piece piece) {
 		this.direction = direction;
@@ -50,5 +50,13 @@ public class Corner {
 	
 	public int getjPrint() {
 		return jPrint;
+	}
+	
+	public int getI() {
+		return i;
+	}
+	
+	public int getJ() {
+		return j;
 	}
 }

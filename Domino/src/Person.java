@@ -28,6 +28,7 @@ public class Person extends Player {
 		}
 		
 		table.addPiece(c.getI(), c.getJ(), p, c);
+		
 		return true;
 	}
 	

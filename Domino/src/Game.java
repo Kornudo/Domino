@@ -1,18 +1,28 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game {
-	private Table gameTable;
-	private Player[] players = new Player[4];
+	private Table gameTable = new Table();
+	
+	Person P1 = new Person();
+	AI AI1; // DECLARE BOTS
+	AI AI2;
+	AI AI3;
+	
+	private Player[] players = {P1, AI1, AI2, AI3};
 	private ArrayList<Piece> deck = new ArrayList<Piece>();
 	private Random rand = new Random();
+
+	private Level level = null;
 	
-	public Game (Table gameTable, Player[] players) {
-		
+	enum Level {
+	    LOW,
+	    MEDIUM,
+	    HIGH
 	}
 	
 	public ArrayList<Piece> createDeck(){
-		
 		for(int i = 0; i < 7; i++) {
 			for(int j = i; j < 7; j++) {
 				deck.add(new Piece(i, j));		
@@ -47,13 +57,60 @@ public class Game {
 		return temp;
 	}
 	
-	public boolean addPiece() {
-		return false;
+	public void playGame() {
+		
+		startGame();
+		
+		int turn = findFirstPlayer();
+		if(turn == -1) return ; // if something goes wrong
+			
+		while(true) {
+			
+			
+			
+			
+			
+		}
+			
 	}
 	
-	
-	public boolean playGame() {
-		return false;
+	public void startGame() {
+		// SELECT DIFFICULTY			
+		System.out.println("SELECT LEVEL DIFFICULTY:");
+		for (Level levels : Level.values()) {
+			  System.out.println(levels);
+		}
+		
+		Scanner scan = new Scanner(System.in);
+		level =  Level.valueOf(scan.next());	
+		System.out.println("SELECTED" + level + "DIFFICULTY");		
+				
+		switch (level) {
+			case LOW:
+				AI1 = new AI_Low();
+				AI2 = new AI_Low();
+				AI3 = new AI_Low();
+				break;
+			case MEDIUM:
+				AI1 = new AI_Medium();
+				AI2 = new AI_Medium();
+				AI3 = new AI_Medium();
+				break;
+			case HIGH:
+				AI1 = new AI_High();
+				AI2 = new AI_High();
+				AI3 = new AI_High();			
+				break;
+			default:
+				System.out.println("WRONG INPUT! TRY AGAIN!");
+				startGame();
+		}
+		
+		createDeck();
+		P1.setPlayerHand(dealHand());
+		AI1.setPlayerHand(dealHand());
+		AI2.setPlayerHand(dealHand());
+		AI3.setPlayerHand(dealHand());	
 	}
 	
 	public boolean endGame() {

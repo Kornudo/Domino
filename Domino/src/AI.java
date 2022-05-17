@@ -1,12 +1,6 @@
 
 public class AI extends Player {
 	
-	public enum Level {
-		  LOW,
-		  MEDIUM,
-		  HIGH
-	}
-	
 	protected int[] howMany(Piece[] pH) {
 		int[] prioArr = new int[7];
 		

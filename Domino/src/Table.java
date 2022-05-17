@@ -10,21 +10,21 @@ public class Table {
 
 	
 	public Table () {
-		print[0][0] = "┌";
-		for (int j = 1; j < x * 3 - 1; j++) print[0][j]= "─";
-		print[0][x * 3 - 1]= "┐";
+		print[0][0] = "â”Œ";
+		for (int j = 1; j < x * 3 - 1; j++) print[0][j]= "â”€";
+		print[0][x * 3 - 1]= "â”�";
 		print[0][x * 3]= "\r\n";
 		for (int i = 1; i < y * 6 + 4; i++) {
-			print[i][0]= "│";
+			print[i][0]= "â”‚";
 			for (int j = 1; j < x * 3 - 1; j++) {
 				print[i][j]= " ";
 			}
-			print[i][x * 3 - 1]= "│";
+			print[i][x * 3 - 1]= "â”‚";
 			print[i][x * 3]= "\r\n";
 		}
-		print[y * 6 + 4][0] = "└";
-		for (int j = 1; j < x * 3 - 1; j++) print[y * 6 + 4][j]= "─";
-		print[y * 6 + 4][x * 3 - 1]= "┘";
+		print[y * 6 + 4][0] = "â””";
+		for (int j = 1; j < x * 3 - 1; j++) print[y * 6 + 4][j]= "â”€";
+		print[y * 6 + 4][x * 3 - 1]= "â”˜";
 		print[y * 6 + 4][x * 3]= "\r\n";
 	}
 	
@@ -33,6 +33,17 @@ public class Table {
 			int cA = corners.get(i).getPiece().getSideA(); 
 			int cB = corners.get(i).getPiece().getSideB();
 			if((cA == A && cB == B) || (cB == A && cA == B)) {
+				return corners.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Corner findCornerAI(int A, int B) { //looks for a corner with sides A and B,returns the found corner or returns null if no corner is found
+		for(int i = 0; i < corners.size(); i++) {
+			int cA = corners.get(i).getPiece().getSideA(); 
+			int cB = corners.get(i).getPiece().getSideB();
+			if(cA == A && cB == B) {
 				return corners.get(i);
 			}
 		}
@@ -196,7 +207,7 @@ public class Table {
 //		table.addPiece(0, 5, new Piece(1, 2), table.findCorner(1, 1));
 //		table.addPiece(0, 6, new Piece(2, 8), table.findCorner(1, 2));
 //		table.addPiece(0, 7, new Piece(8, 0), table.findCorner(2, 8));
-//		table.addPiece(0, 8, new Piece(0, 4), table.findCorner(8, 0)); //faz colisão
+//		table.addPiece(0, 8, new Piece(0, 4), table.findCorner(8, 0)); //faz colisÃ£o
 		
 		//right
 		table.addPiece(2, 5, new Piece(6, 2), table.findCorner(6, 6));

@@ -2,9 +2,7 @@ import java.util.Scanner;
 
 public class Person extends Player {
 
-	public boolean addPiece(Table table) {
-		// TODO Auto-generated method stub
-		
+	public boolean addPiece(Table table) {		
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
@@ -30,12 +28,11 @@ public class Person extends Player {
 		}
 		
 		table.addPiece(c.getI(), c.getJ(), p, c);
+		
 		return true;
 	}
 	
-	public Piece inHand(int A, int B) {
-		// TODO Auto-generated method stub
-		
+	public Piece inHand(int A, int B) {		
 		Piece[] pH = getPlayerHand();
 		
 		for(int i = 0; i < pH.length; i++) {

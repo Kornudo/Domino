@@ -12,10 +12,13 @@ public class AI_High extends AI {
 		
 		for(i = 0; i < pH.length; i++) {
 			
-			if(pH[i].getPrio() > 999 && !handOfCounters) // if hand not full of counters tries to play counter
-				c = table.findCornerAI(pH[i].getSideA(), pH[i].getSideB());
-			else // if hand of counters play the most priority or normal can't play/ don't have counters
+			if(pH[i].getPrio() > 999 && !handOfCounters) { // if hand not full of counters tries to play counter
+				c = table.findCornerAI(pH[i].getSideA());
+				c = table.findCornerAI(pH[i].getSideB());
+			} else { // if hand of counters play the most priority or normal can't play/ don't have counters
+				c = table.findCornerAI(pH[i].getSideA());
 				c = table.findCorner(pH[i].getSideA(), pH[i].getSideB());
+			}
 						
 			if(c != null) break;
 		}

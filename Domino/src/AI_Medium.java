@@ -1,21 +1,37 @@
+import java.util.Random;
 
 public class AI_Medium extends AI {
-
+	private Random rand = new Random();
+	
 	public boolean addPiece(Table table) {
 		
 		Piece[] pH = getPlayerHand();
 		pH = prioSort(pH);
-		Corner c = null;
-		int i;
+		Corner c1 = null;
+		Corner c2 = null;
+ 		int i;
 		
 		for(i = 0; i < pH.length; i++) {
-			c = table.findCorner(pH[i].getSideA(), pH[i].getSideB());
-			if(c != null) break;
+			c1 = table.findCornerAI(pH[i].getSideA());
+			c2 = table.findCornerAI(pH[i].getSideB());
+			if(c1 != null || c2 != null) break;
 		}
 		
-		if(c==null) return false;
+		if(c1==null && c2==null) return false;	// if no play can be done	
 		
-		table.addPiece(c.getI(), c.getJ(), pH[i], c);
+		int random = rand.nextInt(1);
+		if(c1!=null && c2!=null) // if can be played with both sides
+			if(random==1)
+				c1 = table.findCornerAI(pH[i].getSideA());
+			else 
+				c2 = table.findCornerAI(pH[i].getSideB());
+		
+		if(c1 != null) // only 1 side can be played
+			table.addPiece(c1.getI(), c1.getJ(), pH[i], c1);
+		
+		if(c2 != null)
+			table.addPiece(c2.getI(), c2.getJ(), pH[i], c2);
+		
 		return true;
 	}
 	

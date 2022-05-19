@@ -7,14 +7,24 @@ public class AI_Low extends AI {
 		
 		Piece[] pH = getPlayerHand();
 		Piece[] playables = null;
-		Corner c;
+		Corner c1;
+		Corner c2;
 		
 		int count = 0;
 		for (int i = 0; i < pH.length; i++) { // get the pieces that can be played on the round
-			c = table.findCorner(pH[i].getSideA(), pH[i].getSideB());
-			if(c != null) {
-				playables[count++] = pH[i]; 
+			c1 = table.findCornerAI(pH[i].getSideA());
+			c2 = table.findCornerAI(pH[i].getSideB());
+			
+			if(c1 != null && c2 != null) {
+				playables[count++] = pH[i].getSideA(); 
+				playables[count++] = pH[i].getSideB();
 			}
+			
+			if(c1 != null) 
+				playables[count++] = pH[i].getSideA(); 
+			if(c2 != null)
+				playables[count++] = pH[i].getSideB(); 
+		
 		}
 		
 		if(playables == null) return false; // if there's no possible move
@@ -25,6 +35,12 @@ public class AI_Low extends AI {
 		
 		table.addPiece(c.getI(), c.getJ(), playables[r], c);
 		return true;	
+	}
+	
+	private Corner[] givePlayableCorners(Table table) {
+		
+		for(int i = 0; i < table.get)
+		
 	}
 	
 }

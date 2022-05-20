@@ -3,13 +3,11 @@ public class Piece {
 	private int sideA;
 	private int sideB;
 	private int priority;
-	private int counterSide;
 	
 	public Piece(int sideA, int sideB) {
 		this.sideA = sideA;
 		this.sideB = sideB;
 		this.priority = 0;
-		this.counterSide = 0;
 	}
 	
 	public boolean dual() {
@@ -36,12 +34,4 @@ public class Piece {
 		return priority;
 	}
 	
-	public int getCounterSide() {
-		return counterSide;
-	}
-	
-	public int setCounterSide(int counterSide) {
-		this.counterSide = counterSide;
-		return counterSide;
-	}
 }

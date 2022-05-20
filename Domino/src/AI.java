@@ -5,7 +5,7 @@ public class AI extends Player {
 		Piece[] playerHand = getPlayerHand();
 		for (int i = 0; i < playerHand.length; i++) {
 			for (int j = i + 1; j < playerHand.length; j++) {
-				int temp = 0;
+				int temp;
 				if (playerHand[i].getPrio() < playerHand[j].getPrio()) {
 					temp = playerHand[i].getPrio();
 					playerHand[i].setPrio(playerHand[j].getPrio());

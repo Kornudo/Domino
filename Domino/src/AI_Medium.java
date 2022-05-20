@@ -24,18 +24,13 @@ public class AI_Medium extends AI {
 	}
 	
 	private void definePrio() {
-		Piece[] playerHand = getPlayerHand();
 		
+		Piece[] playerHand = getPlayerHand();
 		int prio = 0;
 		int[] prioArr = numberOfSameSides(playerHand);
 		
-		// prio :
-		// duals - +5
-		// many - number of common
 		for(int i = 0; i < playerHand.length; i++) { 
-			
 			if(playerHand[i].dual()) prio+=5;		
-			
 			prio+=prioArr[playerHand[i].getSideA()]; // number of common
 			prio+=prioArr[playerHand[i].getSideB()];
 			playerHand[i].setPrio(prio); // stacks with dual if needed

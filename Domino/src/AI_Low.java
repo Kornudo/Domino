@@ -12,21 +12,22 @@ public class AI_Low extends AI {
 		int count = 0;
 		int r;
 		
-		for (int i = 0; i < playerHand.length; i++) { // get the pieces that can be played on the round
-			
+		for (int i = 0; i < playerHand.length; i++) { 
 			Corner[] piecePlayables = givePlayableCorners(table, playerHand[i]);
-			
 			if(piecePlayables!=null) {
 				r = rand.nextInt(piecePlayables.length);
 				randomPiece[count] = playerHand[i];
 				randomCorner[count] = piecePlayables[r];
-			}
+				piecePlayables = null;
+			}	
 		}
 		
 		r = rand.nextInt(count);
-		if(randomPiece==null) return false; // Piece arr or Corner arr
+		if(randomPiece==null) return false; 
 		
-		table.addPiece(randomCorner[r].getI(), randomCorner[r].getJ(), randomPiece[r], randomCorner[r]);
+		boolean isAdded = table.addPiece(randomCorner[r].getI(), randomCorner[r].getJ(), randomPiece[r], randomCorner[r]);
+		
+		
 		return true;	
 	}
 	
@@ -34,28 +35,26 @@ public class AI_Low extends AI {
 		Corner[] temp = null;
 		Corner toCompareDual = findFirstDualCorner(table);
 		ArrayList<Corner> corners = table.getCorners();
-		boolean firstDual = false;
+		boolean isfirstDual = true;
 		int count = 0;
 		
 		for(int i = 0; i < corners.size(); i++) {
-			int oS = corners.get(i).outerSide();
-						
-			if(piece.getSideA()==oS || piece.getSideB()==oS)
-				
-				if(toCompareDual!=null && corners.get(i).getPiece().dual()) { // if exists duals playable corners list
-																				// and selected is a dual
+			int oS = corners.get(i).outerSide();	
+			if (piece.getSideA() == oS || piece.getSideB() == oS) {
+				if (toCompareDual != null && corners.get(i).getPiece().dual()) {
 					Corner index = corners.get(i);
-					
-					if(!firstDual) // 1st dual case
+					if (!isfirstDual) {
 						temp[count++] = index;
-					
-					if(toCompareDual != index) { // 2nd and dif dual corners
+						isfirstDual = false;
+					}
+					if (toCompareDual != index) {
 						temp[count++] = index;
 						toCompareDual = index;
 					}
 					continue;
 				}
 				temp[count++] = corners.get(i);
+			}
 		}
 		return temp;
 	}

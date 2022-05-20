@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class AI_Low extends AI {
@@ -5,26 +6,67 @@ public class AI_Low extends AI {
 	
 	public boolean addPiece(Table table) {
 		
-		Piece[] pH = getPlayerHand();
-		Piece[] playables = null;
-		Corner c;
-		
+		Piece[] playerHand = getPlayerHand();
+		Piece[] randomPiece = null;
+		Corner[] randomCorner = null;
 		int count = 0;
-		for (int i = 0; i < pH.length; i++) { // get the pieces that can be played on the round
-			c = table.findCorner(pH[i].getSideA(), pH[i].getSideB());
-			if(c != null) {
-				playables[count++] = pH[i]; 
-			}
+		int r;
+		
+		for (int i = 0; i < playerHand.length; i++) { 
+			Corner[] piecePlayables = givePlayableCorners(table, playerHand[i]);
+			if(piecePlayables!=null) {
+				r = rand.nextInt(piecePlayables.length);
+				randomPiece[count] = playerHand[i];
+				randomCorner[count] = piecePlayables[r];
+				piecePlayables = null;
+			}	
 		}
 		
-		if(playables == null) return false; // if there's no possible move
+		r = rand.nextInt(count);
+		if(randomPiece==null) return false; 
 		
-		@SuppressWarnings("unused")
-		int r = rand.nextInt(count);
-		c = table.findCorner(playables[r].getSideA(), playables[r].getSideB());
+		boolean isAdded = table.addPiece(randomCorner[r].getI(), randomCorner[r].getJ(), randomPiece[r], randomCorner[r]);
 		
-		table.addPiece(c.getI(), c.getJ(), playables[r], c);
+		
 		return true;	
+	}
+	
+	private Corner[] givePlayableCorners(Table table, Piece piece) {	
+		Corner[] temp = null;
+		Corner toCompareDual = findFirstDualCorner(table);
+		ArrayList<Corner> corners = table.getCorners();
+		boolean isfirstDual = true;
+		int count = 0;
+		
+		for(int i = 0; i < corners.size(); i++) {
+			int oS = corners.get(i).outerSide();	
+			if (piece.getSideA() == oS || piece.getSideB() == oS) {
+				if (toCompareDual != null && corners.get(i).getPiece().dual()) {
+					Corner index = corners.get(i);
+					if (!isfirstDual) {
+						temp[count++] = index;
+						isfirstDual = false;
+					}
+					if (toCompareDual != index) {
+						temp[count++] = index;
+						toCompareDual = index;
+					}
+					continue;
+				}
+				temp[count++] = corners.get(i);
+			}
+		}
+		return temp;
+	}
+	
+	private Corner findFirstDualCorner(Table table) {
+		ArrayList<Corner> corners = table.getCorners();
+		
+		for(int i = 0; i < corners.size(); i++) {
+			if(corners.get(i).getPiece().dual())
+				return corners.get(i);
+		}
+		return null;
 	}
 	
 }

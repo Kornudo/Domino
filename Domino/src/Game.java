@@ -66,7 +66,7 @@ public class Game {
 			
 		while(true) {
 			
-			
+			players[turn]
 			
 			
 			

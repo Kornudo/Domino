@@ -1,60 +1,40 @@
 
 public class AI_Medium extends AI {
-
+	
 	public boolean addPiece(Table table) {
 		
-		Piece[] pH = getPlayerHand();
-		pH = prioSort(pH);
-		Corner c = null;
-		int i;
+		Piece[] playerHand = getPlayerHand();
+		Corner corner = null;
+		definePrio();
+		playerHand = prioSort();
 		
-		for(i = 0; i < pH.length; i++) {
-			c = table.findCorner(pH[i].getSideA(), pH[i].getSideB());
-			if(c != null) break;
+		int i;
+		for(i = 0; i < playerHand.length; i++) {
+			int A = playerHand[i].getSideA();
+			int B = playerHand[i].getSideB();
+			corner = table.findPlayableCorner(A, B);
+			if(corner!=null) break;
 		}
 		
-		if(c==null) return false;
+		if(corner==null) return false;	// if no play can be done	
 		
-		table.addPiece(c.getI(), c.getJ(), pH[i], c);
+		table.addPiece(corner.getI(), corner.getJ(), playerHand[i], corner);
+		resetPrio();
 		return true;
 	}
 	
-	private Piece[] prioSort(Piece[] pH) {	
-		definePrio();
-		
-		for (int i = 0; i < pH.length; i++) {
-			for (int j = i + 1; j < pH.length; j++) {
-				int temp = 0;
-				if (pH[i].getPrio() < pH[j].getPrio()) {
-					temp = pH[i].getPrio();
-					pH[i].setPrio(pH[j].getPrio());
-					pH[j].setPrio(temp);
-				}
-			}
-		}
-		return pH;
-	}
-	
 	private void definePrio() {
-		Piece[] pH = getPlayerHand();
 		
+		Piece[] playerHand = getPlayerHand();
 		int prio = 0;
-		int[] prioArr = howMany(pH);
+		int[] prioArr = numberOfSameSides(playerHand);
 		
-		// prio :
-		// duals - +5
-		// many - number of common
-		// counter - +inf
-		for(int i = 0; i < pH.length; i++) { 
-			if(pH[i].dual()) { // sets prio to duals
-				prio = pH[i].getPrio() + 5;
-				pH[i].setPrio(prio);
-				
-			}			
-			prio+= prioArr[pH[i].getSideA()]; // number of common
-			prio+= prioArr[pH[i].getSideB()];
-			pH[i].setPrio(prio); // stacks with dual if needed
-			prio = 0;
+		for(int i = 0; i < playerHand.length; i++) { 
+			if(playerHand[i].dual()) prio+=5;		
+			prio+=prioArr[playerHand[i].getSideA()]; // number of common
+			prio+=prioArr[playerHand[i].getSideB()];
+			playerHand[i].setPrio(prio); // stacks with dual if needed
+			prio=0;
 		}
 	}
 	

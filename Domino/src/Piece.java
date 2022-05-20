@@ -33,4 +33,5 @@ public class Piece {
 		this.priority = prio;
 		return priority;
 	}
+	
 }

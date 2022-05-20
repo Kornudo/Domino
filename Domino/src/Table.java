@@ -39,11 +39,20 @@ public class Table {
 		return null;
 	}
 	
-	public Corner findCornerAI(int A) { //looks for a corner with sides A and B,returns the found corner or returns null if no corner is found
+	public Corner findPlayableCorner(int A, int B) { 
 		for(int i = 0; i < corners.size(); i++) {
-			int cA = corners.get(i).getPiece().getSideA(); 
-			int cB = corners.get(i).getPiece().getSideB();
-			if(cA == A || cB == A) {
+			int cornerOuterSide = corners.get(i).outerSide(); 
+			if(cornerOuterSide == A || cornerOuterSide == B) {
+				return corners.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Corner findPlayableCounterCorner(int A) { 
+		for(int i = 0; i < corners.size(); i++) {
+			int cornerOuterSide = corners.get(i).outerSide(); 
+			if(cornerOuterSide == A) {
 				return corners.get(i);
 			}
 		}

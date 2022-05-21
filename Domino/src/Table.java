@@ -13,11 +13,10 @@ public class Table {
 	private int rightMostIndex; // index of up most print index of up most piece in the table
 	private String[][] print = new String[12 * y + 1][6 * x - 5]; 
 	private ArrayList<Corner> corners = new ArrayList<Corner>();
-	////
 
-	
 	public Table () {
 		for (int i = 0; i < 12 * y + 1; i++) {
+
 			for (int j = 0; j < 6 * x - 5; j++) {
 				print[i][j] = " ";
 			}
@@ -445,6 +444,7 @@ public class Table {
 			else {
 				return handleOutOfBoundsDown(piece, corner);
 			}
+			
 		}
 		corners.remove(corner);
 		return true;
@@ -622,6 +622,84 @@ public class Table {
 		corners.remove(corner);
 		return true;
 	}
+	
+	private int outOfBoundsUp(Corner corner) { // returns 0 if no pieces fit, 1 if only an horizontal piece fits, 2 if both vertical and horizontal pieces fit
+		if (corner.getiPrint() - 2 < upBoundaryIndex) { // a vertical piece would be out of bounds
+			if (corner.getiPrint() + 2 < upBoundaryIndex) { // a horizontal piece would be out of bounds
+				return 0;
+			}
+			return 1;
+		}
+		return 2;
+	}
+	
+
+	private int outOfBoundsDown(Corner corner) { // returns 0 if no pieces fit, 1 if only an horizontal piece fits, 2 if both vertical and horizontal pieces fit
+		if (corner.getiPrint() + 2 > downBoundaryIndex) { // a vertical piece would be out of bounds
+			if (corner.getiPrint() - 2 > downBoundaryIndex) { // a horizontal piece would be out of bounds
+				return 0;
+			}
+			return 1;
+		}
+		return 2;
+	}
+	
+
+	// NOT FINISHED
+	private void handleOutOfBoundsUp(Piece piece, Corner corner) {
+		if (piece.dual() && downMostIndex <= downBoundaryIndex - 2) { // if board can shift for dual vertical
+			upBoundaryIndex -= 2;
+			downBoundaryIndex -= 2;
+			addPieceUp(piece,corner);
+		}
+		else if(downMostIndex <= downBoundaryIndex - 6) { // if board can shift for vertical piece
+			upBoundaryIndex -= 6;
+			downBoundaryIndex -= 6;
+			addPieceUp(piece,corner);
+		}
+//		else { // cant shift
+//			int offset;
+//			if (piece.dual()) offset = 3;
+//			else offset = 2;
+//			Corner newCorner = new Corner("left", corner.getiPrint() - 4, corner.getjPrint() - offset, corner.getPiece());
+//			int outOfBounds = outOfBoundsLeft(newCorner);
+//			if (outOfBounds == 0 || outOfBounds == 1) {
+//				handleOutOfBoundsLeftNonDual();
+//			}
+//			else {
+//				addPieceRight(piece, new Corner("right", corner.getiPrint() - 4, corner.getjPrint() + offset, corner.getPiece()));
+//			}
+//		}
+	}
+	
+	private void handleOutOfBoundsDown(Piece piece, Corner corner) {
+		if (piece.dual() && upMostIndex >= upBoundaryIndex - 2) { // if piece is dual and board can shift for dual vertical
+			upBoundaryIndex += 2;
+			downBoundaryIndex += 2;
+			addPieceDown(piece,corner);
+		}
+		else if(downMostIndex >= downBoundaryIndex - 6) { // if board can shift for vertical piece
+			upBoundaryIndex += 6;
+			downBoundaryIndex += 6;
+			addPieceDown(piece,corner);
+		}
+	}
+	
+	//OUTDATED
+//	public void addPiece (Piece piece, Corner corner) {
+//		try { addPrintPiece(piece, corner);
+//		} catch(IndexOutOfBoundsException e) {
+//			if (corner.getDirection() == "left") {
+//				try { addPrintPiece(piece, new Corner("up", corner.getiPrint() - 4, corner.getjPrint() + 2, corner.getPiece()));
+//				} catch(IndexOutOfBoundsException E) {addPrintPiece(piece, new Corner("down", corner.getiPrint() + 4, corner.getjPrint() + 2, corner.getPiece()));}
+//			}
+//			else if (corner.getDirection() == "right") {
+//				try { addPrintPiece(piece, new Corner("up", corner.getiPrint() - 4, corner.getjPrint() - 2, corner.getPiece()));
+//				} catch(IndexOutOfBoundsException E) {addPrintPiece(piece, new Corner("down", corner.getiPrint() + 4, corner.getjPrint() - 2, corner.getPiece()));}
+//			}
+//		}
+//	}
+
 		
 	public static void main(String[] args) {
 		Table table = new Table();
@@ -819,7 +897,6 @@ public class Table {
 //		table.addPiece(new Piece(3, 4), table.findCorner(4, 1)); //down
 //		table.addPiece(new Piece(0, 3), table.findCorner(3, 4)); //down
 //		table.addPiece(new Piece(4, 0), table.findCorner(0, 3)); //down
-		
 		
 		table.printTable();
 	}

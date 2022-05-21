@@ -1,7 +1,6 @@
 
 public abstract class Player {
 	private Piece[] playerHand = new Piece[7];
-	private int size = 7;
 	private int score = 0;
 	
 	public boolean handEmpty() {	
@@ -11,6 +10,14 @@ public abstract class Player {
 		return false;
 	}
 	
+	public Piece[] removePiece(int index) {
+		Piece[] temp = null;
+		for(int i = 0; i < playerHand.length; i++) {
+			if(i!=index) temp[i] = playerHand[i];
+		}
+		return temp;	
+	}
+	
 	public Piece[] getPlayerHand() {
 		return playerHand;
 	}
@@ -18,10 +25,6 @@ public abstract class Player {
 	public Piece[] setPlayerHand(Piece[] playerHand) {
 		this.playerHand = playerHand;
 		return playerHand;
-	}
-	
-	public int reduceSize() {
-		return this.size--;
 	}
 	
 	public int getScore() {

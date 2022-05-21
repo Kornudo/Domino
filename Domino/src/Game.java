@@ -63,6 +63,10 @@ public class Game {
 		
 		int turn = findFirstPlayer();
 		if(turn == -1) return ; // if something goes wrong
+		
+		for(int i = 0; i < players[turn].getPlayerHand().length; i++) {
+			
+		}
 			
 		while(true) {
 			

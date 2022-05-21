@@ -19,7 +19,7 @@ public abstract class Player {
 	}
 	
 	public Piece[] getPlayerHand() {
-		return playerHand;
+		return this.playerHand;
 	}
 	
 	public Piece[] setPlayerHand(Piece[] playerHand) {

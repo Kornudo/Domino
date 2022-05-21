@@ -1,5 +1,5 @@
 
-public class AI extends Player {
+public abstract class AI extends Player {
 	
 	protected Piece[] prioSort() {	
 		Piece[] playerHand = getPlayerHand();

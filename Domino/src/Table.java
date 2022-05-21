@@ -23,6 +23,10 @@ public class Table {
 		}
 	}
 	
+	public ArrayList<Corner> getCorners() {
+		return corners;
+	}
+	
 	public Corner findPlayableCorner(int A, int B) { 
         for(int i = 0; i < corners.size(); i++) {
             int cornerOuterSide = corners.get(i).getPiece().getSideA(); 

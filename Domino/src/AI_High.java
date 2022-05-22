@@ -44,6 +44,7 @@ public class AI_High extends AI {
 		setPlayerHand(removePiece(playerHand[i]));
 		resetPrio();
 		return true;
+		var gordo;
 	}
 	
 	private boolean handOfCounters(Table table) {

@@ -3,6 +3,7 @@ public class AI_High extends AI {
 
 	int[] counterSides = null;
 	
+	@Override
 	public boolean addPiece(Table table, Person person) {
 		
 		Piece[] playerHand = getPlayerHand();
@@ -39,9 +40,11 @@ public class AI_High extends AI {
 		
 		if(corner==null) return false;
 		
-		table.addPiece(corner.getI(), corner.getJ(), playerHand[i], corner);
+		if(!table.addPiece(playerHand[i], corner)) return false;
+		setPlayerHand(removePiece(playerHand[i]));
 		resetPrio();
 		return true;
+		var gordo;
 	}
 	
 	private boolean handOfCounters(Table table) {

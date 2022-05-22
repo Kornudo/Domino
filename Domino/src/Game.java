@@ -13,6 +13,7 @@ public class Game {
 	private Player[] players = {P1, AI1, AI2, AI3};
 	private ArrayList<Piece> deck = new ArrayList<Piece>();
 	private Random rand = new Random();
+	private int turn;
 
 	private Level level = null;
 	
@@ -57,21 +58,38 @@ public class Game {
 		return temp;
 	}
 	
+	public void placeFirstPiece() {
+		int handLen = players[turn].getPlayerHand().length;
+		Piece[] playerHand = players[turn].getPlayerHand();
+		for(int i = 0; i < handLen; i++) {
+			int A = playerHand[i].getSideA();
+			int B = playerHand[i].getSideB();
+			if(A==6 && B==6) {
+				gameTable.addPiece(playerHand[i], null);
+				players[turn].removePiece(playerHand[i]);
+				break;
+			}
+			//pinto gordo e grosso eclipse e um osso
+			var xota;
+			var gorada;
+		}
+	}
+	
 	public void playGame() {
 		
 		startGame();
-		
-		int turn = findFirstPlayer();
-		if(turn == -1) return ; // if something goes wrong
-		
-		for(int i = 0; i < players[turn].getPlayerHand().length; i++) {
-			
-		}
-			
 		while(true) {
 			
-			players[turn]
-			
+			if(players[turn]==P1) {
+				P1.addPiece(gameTable);
+			}
+			else
+				if(level.toString().equals("Low")) {
+					players[turn].addPiece(gameTable);
+				}
+				else if(level.toString().equals("Medium")) {
+					
+				}
 			
 			
 		}
@@ -115,6 +133,8 @@ public class Game {
 		AI1.setPlayerHand(dealHand());
 		AI2.setPlayerHand(dealHand());
 		AI3.setPlayerHand(dealHand());	
+		turn = findFirstPlayer();
+		placeFirstPiece();
 	}
 	
 	public boolean endGame() {

@@ -10,16 +10,16 @@ public abstract class Player {
 		return false;
 	}
 	
-	public Piece[] removePiece(int index) {
+	public Piece[] removePiece(Piece piece) {
 		Piece[] temp = null;
-		for(int i = 0; i < playerHand.length; i++) {
-			if(i!=index) temp[i] = playerHand[i];
+		for(int i = 0; i < this.playerHand.length; i++) {
+			if(this.playerHand[i]!=piece) temp[i] = this.playerHand[i];
 		}
 		return temp;	
 	}
 	
 	public Piece[] getPlayerHand() {
-		return playerHand;
+		return this.playerHand;
 	}
 	
 	public Piece[] setPlayerHand(Piece[] playerHand) {

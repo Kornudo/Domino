@@ -18,7 +18,8 @@ public class AI_Medium extends AI {
 		
 		if(corner==null) return false;	// if no play can be done	
 		
-		table.addPiece(corner.getI(), corner.getJ(), playerHand[i], corner);
+		if(!table.addPiece(playerHand[i], corner)) return false;
+		setPlayerHand(removePiece(playerHand[i]));
 		resetPrio();
 		return true;
 	}

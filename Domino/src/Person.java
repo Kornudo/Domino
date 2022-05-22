@@ -27,8 +27,8 @@ public class Person extends Player {
 			return false; 
 		}
 		
-		table.addPiece(c.getI(), c.getJ(), p, c);
-		
+		if(!table.addPiece(p, c)) return false;
+		setPlayerHand(removePiece(p));
 		return true;
 	}
 	

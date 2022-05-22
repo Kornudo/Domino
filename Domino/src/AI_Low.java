@@ -4,6 +4,7 @@ import java.util.Random;
 public class AI_Low extends AI {
 	private Random rand = new Random();
 	
+	@SuppressWarnings({ "null", "unused" })
 	public boolean addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();
@@ -18,6 +19,7 @@ public class AI_Low extends AI {
 				r = rand.nextInt(piecePlayables.length);
 				randomPiece[count] = playerHand[i];
 				randomCorner[count] = piecePlayables[r];
+				count++;
 				piecePlayables = null;
 			}	
 		}
@@ -25,9 +27,8 @@ public class AI_Low extends AI {
 		r = rand.nextInt(count);
 		if(randomPiece==null) return false; 
 		
-		boolean isAdded = table.addPiece(randomCorner[r].getI(), randomCorner[r].getJ(), randomPiece[r], randomCorner[r]);
-		
-		
+		if(!table.addPiece(randomPiece[r], randomCorner[r])) return false;
+		setPlayerHand(removePiece(randomPiece[r]));
 		return true;	
 	}
 	

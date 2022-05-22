@@ -69,6 +69,8 @@ public class Game {
 				players[turn].removePiece(playerHand[i]);
 				break;
 			}
+			//pinto gordo e grosso eclipse e um osso
+			var xota;
 		}
 	}
 	

@@ -71,6 +71,7 @@ public class Game {
 			}
 			//pinto gordo e grosso eclipse e um osso
 			var xota;
+			var gorada;
 		}
 	}
 	

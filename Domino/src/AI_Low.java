@@ -24,8 +24,8 @@ public class AI_Low extends AI {
 		
 		r = rand.nextInt(randomPiece.size());
 		if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) return ;
-		removePiece(randomPiece.get(r));
 		printPlay(randomPiece.get(r), randomCorner.get(r));
+		removePiece(randomPiece.get(r));
 		return ;	
 	}
 	

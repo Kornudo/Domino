@@ -1,6 +1,7 @@
 
 public class AI_Medium extends AI {
 	
+	Piece compare;
 	int count = 0;
 	
 	public void addPiece(Table table) {
@@ -22,13 +23,16 @@ public class AI_Medium extends AI {
 		
 		if(!table.addPiece(playerHand[i], corner)) {
 			playerHand[i].setPrio(0);
-			if(playerHand[i].getPrio()==0 && count!=0) return ;
+			if(count>1 && compare==playerHand[i]) return ;
+			
+			if(count==0) compare = playerHand[i];
 			count++;
 			addPiece(table);
+			return ;
 		}
+		printPlay(playerHand[i], corner);
 		removePiece(playerHand[i]);
 		playerHand = getPlayerHand();
-		printPlay(playerHand[i], corner);
 		resetPrio();
 		return ;
 	}

@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Person extends Player {
+	
+	final int ascii = 48;
 
 	public void addPiece(Table table) {	
 		
@@ -16,8 +18,8 @@ public class Person extends Player {
 		String pieceIn = scan.nextLine();
 		String cornerIn = scan.nextLine();
 		
-		int first_in = (int)pieceIn.charAt(1);
-		int sec_in = (int)pieceIn.charAt(3);
+		int first_in = (int)pieceIn.charAt(1)-ascii;
+		int sec_in = (int)pieceIn.charAt(3)-ascii;
 		
 		Piece p = inHand(first_in, sec_in);
 		if(p == null) { // if no piece is registered
@@ -30,8 +32,8 @@ public class Person extends Player {
 		// if exists piece entered
 		// check if exists corner
 		
-		int loc_A = (int)cornerIn.charAt(1);
-		int loc_B = (int)cornerIn.charAt(3);
+		int loc_A = (int)cornerIn.charAt(1)-ascii;
+		int loc_B = (int)cornerIn.charAt(3)-ascii;
 //		scan.close();
 		
 		Corner c = table.findCorner(loc_A, loc_B);	
@@ -41,7 +43,7 @@ public class Person extends Player {
 		}
 		
 		if(!table.addPiece(p, c)) {
-			System.out.println("PLAY NOT POSSBILE TRY AGAIN!");
+			System.out.println("PLAY NOT POSSBILE TRY AGAIN OR PASS MTF!");
 			addPiece(table);
 		}
 		

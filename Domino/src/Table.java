@@ -773,8 +773,8 @@ public class Table {
 		table.addPiece(new Piece(6, 6), null);
 		
 //		// left
-//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6));
-//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3));
+		table.addPiece(new Piece(2, 6), table.findCorner(6, 6));
+		table.addPiece(new Piece(2, 2), table.findCorner(6, 2));
 //		table.addPiece(new Piece(6, 3), table.findCorner(6, 3));
 //		table.addPiece(new Piece(7, 3), table.findCorner(6, 3));
 //		table.addPiece(new Piece(7, 7), table.findCorner(7, 3));
@@ -887,14 +887,14 @@ public class Table {
 //		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up //ERRO
 		////////////////////////////////////////////////////////////////
 		////border shift left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 6)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //left
-		table.addPiece(new Piece(0, 0), table.findCorner(6, 0)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(0, 0), table.findCorner(6, 0)); //left
 		
 //		
 //		table.addPiece(new Piece(7, 7), table.findCorner(7, 3)); //left

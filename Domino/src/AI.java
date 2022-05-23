@@ -1,5 +1,9 @@
 
-public class AI extends Player {
+public abstract class AI extends Player {
+	
+	public abstract void addPiece(Table table);
+	
+	
 	
 	protected Piece[] prioSort() {	
 		Piece[] playerHand = getPlayerHand();
@@ -20,6 +24,10 @@ public class AI extends Player {
 		int[] prioArr = new int[7];
 		
 		for(int i = 0; i < playerHand.length; i++) {
+			if(playerHand[i].dual()) {
+				prioArr[playerHand[i].getSideA()]++;
+				continue;
+			}
 			prioArr[playerHand[i].getSideA()]++;
 			prioArr[playerHand[i].getSideB()]++;
 		}

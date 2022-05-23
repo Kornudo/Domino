@@ -1,7 +1,10 @@
 
 public class AI_Medium extends AI {
 	
-	public boolean addPiece(Table table) {
+	Piece compare;
+	int count = 0;
+	
+	public void addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();
 		Corner corner = null;
@@ -16,12 +19,22 @@ public class AI_Medium extends AI {
 			if(corner!=null) break;
 		}
 		
-		if(corner==null) return false;	// if no play can be done	
+		if(corner==null) return ;	// if no play can be done	
 		
-		if(!table.addPiece(playerHand[i], corner)) return false;
-		setPlayerHand(removePiece(playerHand[i]));
+		if(!table.addPiece(playerHand[i], corner)) {
+			playerHand[i].setPrio(0);
+			if(count>1 && compare==playerHand[i]) return ;
+			
+			if(count==0) compare = playerHand[i];
+			count++;
+			addPiece(table);
+			return ;
+		}
+		printPlay(playerHand[i], corner);
+		removePiece(playerHand[i]);
+		playerHand = getPlayerHand();
 		resetPrio();
-		return true;
+		return ;
 	}
 	
 	private void definePrio() {

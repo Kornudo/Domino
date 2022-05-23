@@ -1,32 +1,68 @@
 import java.util.ArrayList;
-
+/**
+ * Represents a domino table
+ * Table size is variable, its responsible for managing corners (available spaces for pieces),
+ * adding pieces to the table, and gameTable them to console.
+ * @author Jos� Lopes and Jo�o Leandro
+ * 
+ */
 public class Table {
-	private int y = 5; //number of vertical pieces, must be uneven ex: 1, 3, 5, 7, 9 or maybe not
-	private int x = 7; //number of horizontal pieces + 6/6, idk if ot must be uneven but probably best
-	private int upBoundaryIndex = 3*y - 1; // first printed index, will change
-	private int downBoundaryIndex = 9*y + 1; // last printed index, will change
-	private int downMostIndex; // index of down most print index of down most piece in the table
-	private int upMostIndex; // index of up most print index of up most piece in the table
-	private int leftBoundaryIndex = (3*x - 3)/2; // first printed index, will change
-	private int rightBoundaryIndex = (9*x - 9)/2; // last printed index, will change
-	private int leftMostIndex; // index of down most print index of down most piece in the table
-	private int rightMostIndex; // index of up most print index of up most piece in the table
-	private String[][] print = new String[12 * y + 1][6 * x - 5]; 
+	private int y; //number of vertical pieces
+	private int x; //number of horizontal pieces + 6/6
+	private int upBoundaryIndex; // first gameTableed index, will change
+	private int downBoundaryIndex; // last gameTableed index, will change
+	private int downMostIndex; // index of down most gameTable index of down most piece in the table
+	private int upMostIndex; // index of up most gameTable index of up most piece in the table
+	private int leftBoundaryIndex; // first gameTableed index, will change
+	private int rightBoundaryIndex; // last gameTableed index, will change
+	private int leftMostIndex; // index of down most gameTable index of down most piece in the table
+	private int rightMostIndex; // index of up most gameTable index of up most piece in the table
+	private String[][] gameTable; 
 	private ArrayList<Corner> corners = new ArrayList<Corner>();
 
-	public Table () {
+	/**
+	 * Constructor, sets size and builds matrix to be gameTableed to console
+	 * 
+	 * @param y Maximum number of vertical pieces
+	 * @param x Maximum number of horizontal pieces and piece 6/6
+	 * 
+	 * @pre y >= 1
+	 * @pre x >= 1
+	 * 
+	 * @post boundaries are set in function of y and x
+	 * @post String matrix gameTable is initialized in function of y and x and filled with spaces
+	 */
+	public Table (int y, int x) {
+		assert y >= 1;
+		assert x >= 1;
+		this.y = y;
+		this.x = x;
+		
+		upBoundaryIndex = 3*y - 1;
+		downBoundaryIndex = 9*y + 1;
+		leftBoundaryIndex = (3 * x - 3)/2;
+		rightBoundaryIndex = (9*x - 9)/2; 
+		gameTable = new String[12 * y + 1][6 * x - 5];
+		
 		for (int i = 0; i < 12 * y + 1; i++) {
-
 			for (int j = 0; j < 6 * x - 5; j++) {
-				print[i][j] = " ";
+				gameTable[i][j] = " ";
 			}
 		}
 	}
 	
+	/**
+	 * Gets ArrayList corners
+	 * 
+	 * @return ArrayList corners
+	 */
 	public ArrayList<Corner> getCorners() {
 		return corners;
 	}
 	
+	/**
+	 * FAIS ESSE ZOAO Q EU N SEI
+	 */
 	public Corner findPlayableCorner(int A, int B) { 
         for(int i = 0; i < corners.size(); i++) {
             int cornerOuterSide = corners.get(i).getPiece().getSideA(); 
@@ -37,6 +73,9 @@ public class Table {
         return null;
     }
 	
+	/**
+	 * FAIS ESSE ZOAO Q EU N SEI
+	 */
 	public Corner findPlayableCounterCorner(int A) { 
         for(int i = 0; i < corners.size(); i++) {
             int cornerOuterSide = corners.get(i).getPiece().getSideA(); 
@@ -47,6 +86,17 @@ public class Table {
         return null;
     }
 	
+	/**
+	 * Finds an available corner that accepts a piece with side A or B
+	 * 
+	 * @param A number on one side of a piece
+	 * @param B number on the other side of a piece
+	 * 
+	 * @pre 0 <= A <= 6
+	 * @pre 0 <= B <= 6
+	 * 
+	 * @return the corner
+	 */
 	public Corner findCorner(int A, int B) { //looks for a corner with sides A and B,returns the found corner or returns null if no corner is found
 		for(int i = 0; i < corners.size(); i++) {
 			int cA = corners.get(i).getPiece().getSideA(); 
@@ -58,6 +108,9 @@ public class Table {
 		return null;
 	}
 	
+	/**
+	 * FAIS ESSE ZOAO Q EU N SEI
+	 */
 	public Corner findCornerAI(int A, int B) { //looks for a corner with sides A and B,returns the found corner or returns null if no corner is found
 		for(int i = 0; i < corners.size(); i++) {
 			int cA = corners.get(i).getPiece().getSideA(); 
@@ -69,6 +122,9 @@ public class Table {
 		return null;
 	}
 	
+	/**
+	 * FAIS ESSE ZOAO Q EU N SEI
+	 */
 	public boolean isPlayable(Player[] players) {
 		for(int i = 0; i < players.length; i++) { // loop through all existent players
 			Piece[] pH = players[i].getPlayerHand();
@@ -87,121 +143,127 @@ public class Table {
 	
 	private void collisionMarkVertical(int y, int x) {
 		try {
-			print[y - 3][x] = "x";
+			gameTable[y - 3][x] = "x";
 		} catch(IndexOutOfBoundsException e) {
 			for(int i = -1; i < 2; i++) {
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
-				print[y + 3][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
+				gameTable[y + 3][x + i] = "x";
 			}
-			print[y - 2][x - 1] = "x";
-			print[y - 2][x + 1] = "x";
-			print[y][x - 1] = "x";
-			print[y][x + 1] = "x";
-			print[y + 2][x - 1] = "x";
-			print[y + 2][x + 1] = "x";
+			gameTable[y - 2][x - 1] = "x";
+			gameTable[y - 2][x + 1] = "x";
+			gameTable[y][x - 1] = "x";
+			gameTable[y][x + 1] = "x";
+			gameTable[y + 2][x - 1] = "x";
+			gameTable[y + 2][x + 1] = "x";
 			return;
 		}
 		try {
-			print[y + 3][x] = "x";
+			gameTable[y + 3][x] = "x";
 		} catch(IndexOutOfBoundsException e) {
 			for(int i = -1; i < 2; i++) {
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
 			}
-			print[y - 2][x - 1] = "x";
-			print[y - 2][x + 1] = "x";
-			print[y][x - 1] = "x";
-			print[y][x + 1] = "x";
-			print[y + 2][x - 1] = "x";
-			print[y + 2][x + 1] = "x";
+			gameTable[y - 2][x - 1] = "x";
+			gameTable[y - 2][x + 1] = "x";
+			gameTable[y][x - 1] = "x";
+			gameTable[y][x + 1] = "x";
+			gameTable[y + 2][x - 1] = "x";
+			gameTable[y + 2][x + 1] = "x";
 			return;
 		}
 		try {
-			print[y][x - 1] = "x";
+			gameTable[y][x - 1] = "x";
 		} catch(IndexOutOfBoundsException e) {
 			for(int i = 0; i < 2; i++) {
-				print[y - 3][x + i] = "x";
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
-				print[y + 3][x + i] = "x";
+				gameTable[y - 3][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
+				gameTable[y + 3][x + i] = "x";
 			}
-			print[y - 2][x + 1] = "x";
-			print[y][x + 1] = "x";
-			print[y + 2][x + 1] = "x";
+			gameTable[y - 2][x + 1] = "x";
+			gameTable[y][x + 1] = "x";
+			gameTable[y + 2][x + 1] = "x";
 			return;
 		}
 		try {
-			print[y][x + 1] = "x";
+			gameTable[y][x + 1] = "x";
 		} catch(IndexOutOfBoundsException e) {
 			for(int i = -1; i < 1; i++) {
-				print[y - 3][x + i] = "x";
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
-				print[y + 3][x + i] = "x";
+				gameTable[y - 3][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
+				gameTable[y + 3][x + i] = "x";
 			}
-			print[y - 2][x - 1] = "x";
-			print[y][x - 1] = "x";
-			print[y + 2][x - 1] = "x";
+			gameTable[y - 2][x - 1] = "x";
+			gameTable[y][x - 1] = "x";
+			gameTable[y + 2][x - 1] = "x";
 			return;
 		}
 
 		for(int i = -1; i < 2; i++) {
-			print[y - 3][x + i] = "x";
-			print[y - 1][x + i] = "x";
-			print[y + 1][x + i] = "x";
-			print[y + 3][x + i] = "x";
+			gameTable[y - 3][x + i] = "x";
+			gameTable[y - 1][x + i] = "x";
+			gameTable[y + 1][x + i] = "x";
+			gameTable[y + 3][x + i] = "x";
 		}
-		print[y - 2][x - 1] = "x";
-		print[y - 2][x + 1] = "x";
-		print[y + 2][x - 1] = "x";
-		print[y + 2][x + 1] = "x";
+		gameTable[y - 2][x - 1] = "x";
+		gameTable[y - 2][x + 1] = "x";
+		gameTable[y + 2][x - 1] = "x";
+		gameTable[y + 2][x + 1] = "x";
 	}
 	
 	private void collisionMarkLeftHorizontal(int y, int x) {
 		try {
 			for(int i = 1; i > -3; i--) {
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
 			}
-			print[y][x - 2] = "x";
+			gameTable[y][x - 2] = "x";
 		} catch(IndexOutOfBoundsException e) {};
 	}
 	
 	private void collisionMarkRightHorizontal(int y, int x) {
 		try {
 			for(int i = -2; i < 2; i++) {
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
 			}
-			print[y][x + 1] = "x"; 
+			gameTable[y][x + 1] = "x"; 
 		} catch(IndexOutOfBoundsException e) {};
 	}
 	
 	private void collisionMarkHorizontalDual(int y, int x) {
 		try {
 			for(int i = -2; i < 3; i++) {
-				print[y - 1][x + i] = "x";
-				print[y + 1][x + i] = "x";
+				gameTable[y - 1][x + i] = "x";
+				gameTable[y + 1][x + i] = "x";
 			}
-			print[y][x - 2] = "x";
-			print[y][x + 2] = "x";
+			gameTable[y][x - 2] = "x";
+			gameTable[y][x + 2] = "x";
 		} catch(IndexOutOfBoundsException e) {};
 	}
 	
 	private boolean collisionCheckUp(int y, int x) { //returns true if there is collision
 		try {
 			for(int i = y - 3; i < y + 3; i++) {
-				if (print[i][x] == "x") return true; 
+				if (gameTable[i][x] == "x") return true; 
 			}
 		} catch (IndexOutOfBoundsException e) {return true;}
 		return false;
 	}
 	
 	private boolean collisionCheckDown(int y, int x) { //returns true if there is collision
+//		if (x - 1 == 0) {
+//			for(int i = y - 2; i < y + 4; i++) {
+//				if (gameTable[i][x] == "x" || gameTable[i][x - 1] == "x" || gameTable[i][x + 1] == "x") return true; 
+//			}
+//		}
+//		
 		try {
 			for(int i = y - 2; i < y + 4; i++) {
-				if (print[i][x] == "x" || print[i][x - 1] == "x" || print[i][x + 1] == "x") return true; 
+				if (gameTable[i][x] == "x" || gameTable[i][x - 1] == "x" || gameTable[i][x + 1] == "x") return true; 
 			}
 		} catch (IndexOutOfBoundsException e) {return true;}
 		return false;
@@ -210,7 +272,7 @@ public class Table {
 	private boolean collisionCheckLeft(int y, int x) { //returns true if there is collision
 		try {
 			for(int j = x - 2; j < x + 1; j++) {
-				if (print[y][j] == "x" || print[y - 1][j] == "x" || print[y + 1][j] == "x") return true; 
+				if (gameTable[y][j] == "x" || gameTable[y - 1][j] == "x" || gameTable[y + 1][j] == "x") return true; 
 			}
 		} catch(IndexOutOfBoundsException e) {return true;}
 		return false;
@@ -219,7 +281,7 @@ public class Table {
 	private boolean collisionCheckRight(int y, int x) { //returns true if there is collision
 		try {
 			for(int j = x - 1; j < x + 2; j++) {
-				if (print[y][j] == "x" || print[y - 1][j] == "x" || print[y + 1][j] == "x") return true; 
+				if (gameTable[y][j] == "x" || gameTable[y - 1][j] == "x" || gameTable[y + 1][j] == "x") return true; 
 			}
 		} catch(IndexOutOfBoundsException e) {return true;}
 		return false;
@@ -228,65 +290,77 @@ public class Table {
 	private boolean collisionCheckVerticalDual(int y, int x) { //returns true if there is collision
 		try {
 			for(int i = y - 3; i < y + 4; i++) {
-				if (print[i][x - 1] == "x" || print[i][x] == "x" || print[i][x + 1] == "x") return true;
+				if (gameTable[i][x - 1] == "x" || gameTable[i][x] == "x" || gameTable[i][x + 1] == "x") return true;
 			}
 		} catch(IndexOutOfBoundsException e) {return true;}
 		return false;
 	}
 	
 	private boolean collisionCheckUpDual(int y, int x) { //returns true if there is collision
+		if (x == leftBoundaryIndex || x == rightBoundaryIndex) return true;
 		try {
 			for(int j = x - 2; j < x + 3; j++) {
-				if (print[y][j] == "x") return true; 
-				if (print[y - 1][j] == "x") return true; 
+				if (gameTable[y][j] == "x") return true; 
+				if (gameTable[y - 1][j] == "x") return true; 
 			}
 		} catch(IndexOutOfBoundsException e) {return true;}
 		return false;
 	}
 	
 	private boolean collisionCheckDownDual(int y, int x) { //returns true if there is collision
-		try {
+		if (x == leftBoundaryIndex || x == rightBoundaryIndex) return true;
+//		try {
 			for(int j = x - 2; j < x + 3; j++) {
-				if (print[y][j] == "x") return true; 
-				if (print[y + 1][j] == "x") return true; 
+				if (gameTable[y][j] == "x") return true; 
+				if (gameTable[y + 1][j] == "x") return true; 
 			}
-		} catch(IndexOutOfBoundsException e) {return true;}
+//		} catch(IndexOutOfBoundsException e) {return true;}
 		return false;
 	}
 	
+	/**
+	 * Prints the table to console
+	 */
 	public void printTable() { // CAN BE OPTIMIZED
-		System.out.print("┌");
-		for (int j = 0; j < x * 3 - 2; j++) System.out.print("─");
-		System.out.println("┐");
+		System.out.print("#");
+		for (int j = 0; j < x * 3 - 2; j++) System.out.print("#");
+		System.out.println("#");
 		for (int i = upBoundaryIndex; i < downBoundaryIndex + 1; i++) {
-			System.out.print("│");
+			System.out.print("#");
 			for (int j = leftBoundaryIndex; j < rightBoundaryIndex + 1; j++) {
-				if (print[i][j] != "x") System.out.print(print[i][j]);
+				if (gameTable[i][j] != "x") System.out.print(gameTable[i][j]);
 				else System.out.print(" ");
 			}
-			System.out.println("│");
+			System.out.println("#");
 		}
-		System.out.print("└");
-		for (int j = 0; j < x * 3 - 2; j++) System.out.print("─");
-		System.out.println("┘");
+		System.out.print("#");
+		for (int j = 0; j < x * 3 - 2; j++) System.out.print("#");
+		System.out.println("#");
 	}
 	
+	/**
+	 * Adds a corner to the ArrayList of corners
+	 * 
+	 * @param corner
+	 * 
+	 * @post corner is added
+	 */
 	public void addCorner(Corner corner) {
 		corners.add(corner);
 	}
 	
 	private void addDualPieceLeft (Piece piece, Corner corner) {
-		print[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint()][corner.getjPrint()] = "-";
-		print[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("left", corner.getiPrint(), corner.getjPrint() - 2, piece));
 		addCorner(new Corner("up", corner.getiPrint() - 6, corner.getjPrint(), piece));
 		addCorner(new Corner("down", corner.getiPrint() + 6, corner.getjPrint(), piece));
 	}
 	
 	private void addNonDualPieceLeft (Piece piece, Corner corner) {
-		print[corner.getiPrint()][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint()][corner.getjPrint()] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint()][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("left", corner.getiPrint(), corner.getjPrint() - 3, piece));
 	}
 	
@@ -304,17 +378,17 @@ public class Table {
 	}
 	
 	private void addDualPieceRight (Piece piece, Corner corner) {
-		print[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint()][corner.getjPrint()] = "-";
-		print[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("left", corner.getiPrint(), corner.getjPrint() - 2, piece));
 		addCorner(new Corner("up", corner.getiPrint() - 6, corner.getjPrint(), piece));
 		addCorner(new Corner("down", corner.getiPrint() + 6, corner.getjPrint(), piece));
 	}
 	
 	private void addNonDualPieceRight (Piece piece, Corner corner) {
-		print[corner.getiPrint()][corner.getjPrint() - 1] = String.valueOf(piece.getSideB());
-		print[corner.getiPrint()][corner.getjPrint()] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint()][corner.getjPrint() - 1] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = String.valueOf(piece.getSideA());
 		addCorner(new Corner("right", corner.getiPrint(), corner.getjPrint() + 3, piece));
 		collisionMarkRightHorizontal(corner.getiPrint(), corner.getjPrint());
 	}
@@ -333,18 +407,18 @@ public class Table {
 	}
 	
 	private void addDualPieceUp(Piece piece, Corner corner) {
-		print[corner.getiPrint() + 2][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint() + 2][corner.getjPrint()] = "-";
-		print[corner.getiPrint() + 2][corner.getjPrint() + 1] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint() + 2][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint() + 2][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() + 2][corner.getjPrint() + 1] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("left", corner.getiPrint() + 2, corner.getjPrint() - 3, piece));
 		addCorner(new Corner("up", corner.getiPrint() - 2, corner.getjPrint(), piece));
 		addCorner(new Corner("right", corner.getiPrint() + 2, corner.getjPrint() + 4, piece));
 	}
 	
 	private void addNonDualPieceUp(Piece piece, Corner corner) {
-		print[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint()][corner.getjPrint()] = "-";
-		print[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("up", corner.getiPrint() - 6, corner.getjPrint(), piece));
 	}
 	
@@ -362,18 +436,18 @@ public class Table {
 	}
 	
 	private void addDualPieceDown(Piece piece, Corner corner) {
-		print[corner.getiPrint() - 2][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
-		print[corner.getiPrint() - 2][corner.getjPrint()] = "-";
-		print[corner.getiPrint() - 2][corner.getjPrint() + 1] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint() - 1] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() - 2][corner.getjPrint() + 1] = String.valueOf(piece.getSideB());
 		addCorner(new Corner("left", corner.getiPrint() - 2, corner.getjPrint() - 3, piece));
 		addCorner(new Corner("right", corner.getiPrint() - 2, corner.getjPrint() + 4, piece));
 		addCorner(new Corner("down", corner.getiPrint() + 2, corner.getjPrint(), piece));
 	}
 	
 	private void addNonDualPieceDown(Piece piece, Corner corner) {
-		print[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
-		print[corner.getiPrint()][corner.getjPrint()] = "-";
-		print[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
+		gameTable[corner.getiPrint() - 2][corner.getjPrint()] = String.valueOf(piece.getSideB());
+		gameTable[corner.getiPrint()][corner.getjPrint()] = "-";
+		gameTable[corner.getiPrint() + 2][corner.getjPrint()] = String.valueOf(piece.getSideA());
 		addCorner(new Corner("down", corner.getiPrint() + 6, corner.getjPrint(), piece));
 	}
 	
@@ -390,11 +464,23 @@ public class Table {
 		}
 	}
 	
+	/**
+	 * Adds a piece to the table
+	 * 
+	 * @param piece Piece to be added
+	 * @param corner Corner where piece will be added
+	 * 
+	 * @post piece is added if possible
+	 * @post boundaries are altered if necessary
+	 * @post extreme indexes are altered if necessary
+	 * 
+	 * @return true if piece is successfully added, false if not
+	 */
 	public boolean addPiece(Piece piece, Corner corner) { //returns false if it fails to place piece
 		if (corner == null) {
-			print[y * 6 - 2][3 * x - 3] = "6";
-			print[y * 6][3 * x - 3] = "-";
-			print[y * 6 + 2][3 * x - 3]= "6";
+			gameTable[y * 6 - 2][3 * x - 3] = "6";
+			gameTable[y * 6][3 * x - 3] = "-";
+			gameTable[y * 6 + 2][3 * x - 3]= "6";
 			addCorner(new Corner("left", y * 6, 3 * x - 5, piece));
 			addCorner(new Corner("up",  y * 6 - 6, 3 * x - 3, piece));
 			addCorner(new Corner("right", y * 6, 3 * x, piece));
@@ -683,12 +769,12 @@ public class Table {
 	}
 		
 	public static void main(String[] args) {
-		Table table = new Table();
+		Table table = new Table(5, 7);
 		table.addPiece(new Piece(6, 6), null);
 		
 //		// left
-//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6));
-//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3));
+		table.addPiece(new Piece(2, 6), table.findCorner(6, 6));
+		table.addPiece(new Piece(2, 2), table.findCorner(6, 2));
 //		table.addPiece(new Piece(6, 3), table.findCorner(6, 3));
 //		table.addPiece(new Piece(7, 3), table.findCorner(6, 3));
 //		table.addPiece(new Piece(7, 7), table.findCorner(7, 3));
@@ -717,13 +803,13 @@ public class Table {
 		//TESTS y = 5; x = 7;
 		////////////////////////////////////////////////////////////////
 		////border shift and collision tests left and down
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 6)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
-		table.addPiece(new Piece(7, 3), table.findCorner(6, 3)); //left
-		
-		table.addPiece(new Piece(7, 7), table.findCorner(7, 3)); //left
-		table.addPiece(new Piece(7, 0), table.findCorner(7, 7)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(7, 3), table.findCorner(6, 3)); //left
+//		
+//		table.addPiece(new Piece(7, 7), table.findCorner(7, 3)); //left
+//		table.addPiece(new Piece(7, 0), table.findCorner(7, 7)); //left
 //			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
 //			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
 //			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
@@ -754,37 +840,65 @@ public class Table {
 //			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
 		
 		
-		table.addPiece(new Piece(6, 1), table.findCorner(6, 6)); //up
-		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //right but goes down
-		table.addPiece(new Piece(0, 1), table.findCorner(6, 0)); //down
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; cant shift; turns left;
-		table.addPiece(new Piece(0, 0), table.findCorner(1, 0)); //down; doesnt fit; is not placed;
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; cant shift; turns up;
-		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; doesnt fit; turns right;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
-//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; doesnt fit; is not placed;
-			
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
-			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left  doesnt fit; is not placed;
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 6)); //up
+//		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //right but goes down
+//		table.addPiece(new Piece(0, 1), table.findCorner(6, 0)); //down
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; cant shift; turns left;
+//		table.addPiece(new Piece(0, 0), table.findCorner(1, 0)); //down; doesnt fit; is not placed;
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; cant shift; turns up;
+//		table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; doesnt fit; turns right;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+//			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down;
+////			table.addPiece(new Piece(0, 1), table.findCorner(1, 0)); //down; doesnt fit; is not placed;
+//			
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left
+//			table.addPiece(new Piece(7, 0), table.findCorner(7, 0)); //left  doesnt fit; is not placed;
 			
 //		table.addPiece(new Piece(0, 0), table.findCorner(1, 0)); //down; 
 		
+		////////////////////////////////////////////////////////////////
+		////border shift and collision tests up
+//		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 6)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 1)); //up //ERRO
+		////////////////////////////////////////////////////////////////
+		////border shift left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 3)); //left
+//		table.addPiece(new Piece(6, 0), table.findCorner(6, 6)); //left
+//		table.addPiece(new Piece(0, 0), table.findCorner(6, 0)); //left
+		
+//		
+//		table.addPiece(new Piece(7, 7), table.findCorner(7, 3)); //left
+//		table.addPiece(new Piece(7, 0), table.findCorner(7, 7)); //left
 		////////////////////////////////////////////////////////////////
 //		//corner piece is double test
 //		table.addPiece(new Piece(3, 6), table.findCorner(6, 6)); //left

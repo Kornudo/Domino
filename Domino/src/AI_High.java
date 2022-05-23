@@ -1,17 +1,18 @@
 
-public class AI_High extends AI {
+public abstract class AI_High extends AI {
 
 	int[] counterSides = null;
+	int count = 0;
 	
-	@Override
-	public boolean addPiece(Table table, Person person) {
+	public void addPiece(Table table, Person person) {
 		
 		Piece[] playerHand = getPlayerHand();
+		definePrio(person);
 		playerHand = prioSort();
 		Corner corner = null;
 		
 		boolean handOfCounters = handOfCounters(table); // if the hand is only with counter moves
-		
+	
 		int i;
 		for(i = 0; i < playerHand.length; i++) {
 			int A = playerHand[i].getSideA();
@@ -37,14 +38,19 @@ public class AI_High extends AI {
 			corner = table.findPlayableCorner(A, B);
 			if(corner!=null) break;
 		}
+		if(corner==null) return ;
 		
-		if(corner==null) return false;
-		
-		if(!table.addPiece(playerHand[i], corner)) return false;
-		setPlayerHand(removePiece(playerHand[i]));
+		if(!table.addPiece(playerHand[i], corner)) {
+			playerHand[i].setPrio(0);
+			if(playerHand[i].getPrio()==0 && count!=0) return ;
+			count++;
+			addPiece(table, person);
+		}
+		removePiece(playerHand[i]);
+		playerHand = getPlayerHand();
+		printPlay(playerHand[i], corner);
 		resetPrio();
-		return true;
-		var gordo;
+		return ;
 	}
 	
 	private boolean handOfCounters(Table table) {

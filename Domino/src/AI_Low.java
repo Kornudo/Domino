@@ -4,57 +4,57 @@ import java.util.Random;
 public class AI_Low extends AI {
 	private Random rand = new Random();
 	
-	@SuppressWarnings({ "null", "unused" })
-	public boolean addPiece(Table table) {
+	public void addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();
-		Piece[] randomPiece = null;
-		Corner[] randomCorner = null;
-		int count = 0;
+		ArrayList<Piece> randomPiece = new ArrayList<Piece>();
+		ArrayList<Corner> randomCorner = new ArrayList<Corner>();
 		int r;
 		
 		for (int i = 0; i < playerHand.length; i++) { 
-			Corner[] piecePlayables = givePlayableCorners(table, playerHand[i]);
-			if(piecePlayables!=null) {
-				r = rand.nextInt(piecePlayables.length);
-				randomPiece[count] = playerHand[i];
-				randomCorner[count] = piecePlayables[r];
-				count++;
-				piecePlayables = null;
+			ArrayList<Corner> piecePlayables = givePlayableCorners(table, playerHand[i]);
+			if(piecePlayables.size()!=0) {
+				r = rand.nextInt(piecePlayables.size());
+				randomPiece.add(playerHand[i]);
+				randomCorner.add(piecePlayables.get(r));
 			}	
 		}
 		
-		r = rand.nextInt(count);
-		if(randomPiece==null) return false; 
+		if(randomPiece.size()==0) return ; 
 		
-		if(!table.addPiece(randomPiece[r], randomCorner[r])) return false;
-		setPlayerHand(removePiece(randomPiece[r]));
-		return true;	
+		r = rand.nextInt(randomPiece.size());
+		if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) return ;
+		removePiece(randomPiece.get(r));
+		printPlay(randomPiece.get(r), randomCorner.get(r));
+		return ;	
 	}
 	
-	private Corner[] givePlayableCorners(Table table, Piece piece) {	
-		Corner[] temp = null;
-		Corner toCompareDual = findFirstDualCorner(table);
+	private ArrayList<Corner> givePlayableCorners(Table table, Piece piece) {	
+		ArrayList<Corner> temp = new ArrayList<Corner>(); ;
 		ArrayList<Corner> corners = table.getCorners();
-		boolean isfirstDual = true;
-		int count = 0;
+		Corner toCompareDual = findFirstDualCorner(table);
+		boolean isStarted = false;
 		
 		for(int i = 0; i < corners.size(); i++) {
-			int oS = corners.get(i).outerSide();	
+			int oS = corners.get(i).getPiece().getSideA();	
 			if (piece.getSideA() == oS || piece.getSideB() == oS) {
-				if (toCompareDual != null && corners.get(i).getPiece().dual()) {
-					Corner index = corners.get(i);
-					if (!isfirstDual) {
-						temp[count++] = index;
-						isfirstDual = false;
+				if (corners.get(i).getPiece().dual()) {
+					Corner index = corners.get(i);				
+					int A = toCompareDual.getPiece().getSideA();
+					int B = index.getPiece().getSideA();
+					
+					if(!isStarted && index==corners.get(i)) {
+						temp.add(toCompareDual);
+						isStarted = true;
 					}
-					if (toCompareDual != index) {
-						temp[count++] = index;
+					
+					if (A!=B) {
+						temp.add(index);
 						toCompareDual = index;
 					}
 					continue;
 				}
-				temp[count++] = corners.get(i);
+				temp.add(corners.get(i));
 			}
 		}
 		return temp;

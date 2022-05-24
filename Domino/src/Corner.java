@@ -1,39 +1,17 @@
 
 public class Corner {
 	private String direction;
-	private int i;
-	private int j;
 	private int iPrint;
 	private int jPrint;
 	private Piece piece;
-
-	public Corner (int i, int j, String direction, Piece piece) {
-		this.i = i;
-		this.j = j;
-		this.direction = direction;
-		this.piece = piece;
-	}
+	private int state;
 	
 	public Corner (String direction, int iPrint, int jPrint, Piece piece) {
 		this.direction = direction;
 		this.iPrint = iPrint;
 		this.jPrint = jPrint;
 		this.piece = piece;
-	}
-	
-	public int outerSide() {
-		switch (direction) {
-			case "left":
-				return piece.getSideA();
-			case "up":
-				return piece.getSideA();
-			case "right":
-				return piece.getSideB();
-			case "down":
-				return piece.getSideB();
-			default:
-				return -1;
-		}
+		this.state = 0;
 	}
 	
 	public String getDirection() {
@@ -52,11 +30,13 @@ public class Corner {
 		return jPrint;
 	}
 	
-	public int getI() {
-		return i;
+	public int getState() {
+		return state;
 	}
 	
-	public int getJ() {
-		return j;
+	public int setState(int state) {
+		this.state = state;
+		return state;
 	}
+	
 }

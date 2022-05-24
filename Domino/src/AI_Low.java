@@ -1,9 +1,20 @@
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * Represents the Lowest level of AI
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class AI_Low extends AI {
 	private Random rand = new Random();
 	
+	/**
+	 * Sets up a random piece to add on the game table
+	 * 
+	 * @param table game table itself
+	 * 
+	 * @post updates the player hand without the added piece
+	 */
 	public void addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();
@@ -23,7 +34,22 @@ public class AI_Low extends AI {
 		if(randomPiece.size()==0) return ; 
 		
 		r = rand.nextInt(randomPiece.size());
-		if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) return ;
+		if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) {
+			
+			int A = randomCorner.get(r).getPiece().getSideA();
+			int B = randomCorner.get(r).getPiece().getSideB();
+			int stateCorner = randomCorner.get(r).getState();
+			
+			Corner corner = table.findCorner(A, B);
+			if(!randomPiece.get(r).dual()) 
+				corner.setState(1);
+			else if(randomPiece.get(r).dual())
+				corner.setState(2);
+			else if((randomPiece.get(r).dual() && stateCorner==1) || (!randomPiece.get(r).dual() && stateCorner==2))
+				corner.setState(3);
+			
+			return ;
+		}
 		printPlay(randomPiece.get(r), randomCorner.get(r));
 		removePiece(randomPiece.get(r));
 		return ;	

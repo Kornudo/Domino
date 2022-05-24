@@ -12,10 +12,10 @@ public class Person extends Player {
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
-		String choice = scan.nextLine();
-		if(choice.equals("pass")) return ;
-		
 		String pieceIn = scan.nextLine();
+		if(pieceIn.equals("pass")) return ;
+		
+		//String pieceIn = scan.nextLine();
 		String cornerIn = scan.nextLine();
 		
 		int first_in = (int)pieceIn.charAt(1)-ascii;
@@ -42,8 +42,13 @@ public class Person extends Player {
 			addPiece(table);
 		}
 		
-		if(!table.addPiece(p, c)) {
-			System.out.println("PLAY NOT POSSBILE TRY AGAIN OR PASS MTF!");
+		if(first_in == loc_A || sec_in == loc_B || first_in == loc_B || sec_in == loc_A) {
+			if(!table.addPiece(p, c)) {
+				System.out.println("PLAY NOT POSSBILE TRY AGAIN OR PASS MTF!");
+				addPiece(table);
+			}
+		} else {
+			System.out.println("U TRYNA CHEATING? FUCK OFF");
 			addPiece(table);
 		}
 		

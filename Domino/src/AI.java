@@ -1,19 +1,22 @@
-
+/**
+ * Represents an AI in the game
+ * 
+ * @author José Lopes and João Leandro
+ * 
+ */
 public abstract class AI extends Player {
 	
 	public abstract void addPiece(Table table);
-	
-	
 	
 	protected Piece[] prioSort() {	
 		Piece[] playerHand = getPlayerHand();
 		for (int i = 0; i < playerHand.length; i++) {
 			for (int j = i + 1; j < playerHand.length; j++) {
-				int temp;
+				Piece temp;
 				if (playerHand[i].getPrio() < playerHand[j].getPrio()) {
-					temp = playerHand[i].getPrio();
-					playerHand[i].setPrio(playerHand[j].getPrio());
-					playerHand[j].setPrio(temp);
+					temp = playerHand[i];
+					playerHand[i] = playerHand[j];
+					playerHand[j] = temp;
 				}
 			}
 		}

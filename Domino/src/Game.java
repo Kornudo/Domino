@@ -2,7 +2,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * Represents the game itself
+ * Creates a Table with a determined size, declare the Players and other important variables
+ * for the execution of the game, and more importantly iniciatilizes the game itself.
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class Game {
 	private Table gameTable = new Table(5, 7);
 	
@@ -23,14 +29,14 @@ public class Game {
 
 	private Level level = null;
 	
-	enum Level {
+	private enum Level {
 	    LOW,
 	    MEDIUM,
 	    HIGH,
 	    TEST
 	}
 	
-	public ArrayList<Piece> createDeck(){
+	private ArrayList<Piece> createDeck(){
 		for(int i = 0; i < 7; i++) {
 			for(int j = i; j < 7; j++) {
 				deck.add(new Piece(i, j));		
@@ -39,7 +45,7 @@ public class Game {
 		return deck;
 	}
 	
-	public int findFirstPlayer() {
+	private int findFirstPlayer() {
 		for(int i = 0; i < players.length; i++) { // loop through all existent players
 			Piece[] pH = players[i].getPlayerHand();
 			for(int j = 0; j < pH.length; j++) { // loop through the hand of all existent players
@@ -51,7 +57,7 @@ public class Game {
 		return -1;
 	}
 
-	public Piece[] dealHand() {
+	private Piece[] dealHand() {
 		Piece[] temp = new Piece[7];
 		int limit = deck.size();
 		int int_random; 
@@ -65,7 +71,7 @@ public class Game {
 		return temp;
 	}
 	
-	public void placeFirstPiece() {
+	private void placeFirstPiece() {
 		turn = findFirstPlayer();
 		
 		int handLen = players[turn].getPlayerHand().length;
@@ -83,7 +89,7 @@ public class Game {
 		}
 	}
 	
-	public void playGame() {
+	private void playGame() {
 		
 		startGame();
 		while(true) {
@@ -128,7 +134,7 @@ public class Game {
 		}		
 	}
 	
-	public void startGame() {
+	private void startGame() {
 		// SELECT DIFFICULTY			
 		System.out.println("SELECT LEVEL DIFFICULTY:");
 		for (Level levels : Level.values()) {
@@ -169,10 +175,10 @@ public class Game {
 				players[3] = AI_h3;		
 				break;
 			case TEST:
-				AI0 = new AI_Medium();
-				AI1 = new AI_Medium();
-				AI2 = new AI_Medium();
-				AI3 = new AI_Medium();
+				AI0 = new AI_Low();
+				AI1 = new AI_Low();
+				AI2 = new AI_Low();
+				AI3 = new AI_Low();
 				players[0] = AI0;
 				players[1] = AI1;
 				players[2] = AI2;
@@ -199,22 +205,18 @@ public class Game {
 //		AI2.setPlayerHand(h3);
 //		AI3.setPlayerHand(h4);	
 		
-//		P1.setPlayerHand(dealHand());
-//		AI_h1.setPlayerHand(dealHand());
-//		AI_h2.setPlayerHand(dealHand());
-//		AI_h3.setPlayerHand(dealHand());
+		P1.setPlayerHand(dealHand());
+		AI_h1.setPlayerHand(dealHand());
+		AI_h2.setPlayerHand(dealHand());
+		AI_h3.setPlayerHand(dealHand());
 		
-		P1.setPlayerHand(h1);
-		AI_h1.setPlayerHand(h2);
-		AI_h2.setPlayerHand(h3);
-		AI_h3.setPlayerHand(h4);
+//		P1.setPlayerHand(h1);
+//		AI_h1.setPlayerHand(h2);
+//		AI_h2.setPlayerHand(h3);
+//		AI_h3.setPlayerHand(h4);
 		
 		placeFirstPiece();
 //		scan.close();
-	}
-	
-	public ArrayList<Piece> getDeck() {
-		return deck;
 	}
 	
 	public static void main(String[] args) {

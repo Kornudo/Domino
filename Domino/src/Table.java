@@ -74,7 +74,13 @@ public class Table {
     }
 	
 	/**
-	 * FAIS ESSE ZOAO Q EU N SEI
+	 * Finds a Corner
+	 * 
+	 * @param players array of players in the game
+	 * 
+	 * @pre players.length>0
+	 * 
+	 * @return boolean value
 	 */
 	public Corner findPlayableCounterCorner(int A) { 
         for(int i = 0; i < corners.size(); i++) {
@@ -109,7 +115,13 @@ public class Table {
 	}
 	
 	/**
-	 * FAIS ESSE ZOAO Q EU N SEI
+	 * Finds an available corner that accepts a piece with side A or B
+	 * 
+	 * @param players array of players in the game
+	 * 
+	 * @pre players.length>0
+	 * 
+	 * @return boolean value
 	 */
 	public boolean isPlayable(Player[] players) {
 		for(int i = 0; i < players.length; i++) { // loop through all existent players
@@ -117,8 +129,13 @@ public class Table {
 			for(int j = 0; j < pH.length; j++) { // loop through the hand of all existent players
 				for(int k = 0; k < corners.size(); k++) { // loop through corner arraylist
 					int A = corners.get(k).getPiece().getSideA(); // get corner from corner arraylist | get Piece from corner | get side values
-					int B = corners.get(k).getPiece().getSideB();
-					if((pH[j].getSideA() == A) || (pH[j].getSideB() == B)) {
+					
+					if(pH[j].dual() && pH[j].getSideA() == A && corners.get(k).getState() < 2) {
+						return true;
+					}
+					
+					if((pH[j].getSideA() == A) || (pH[j].getSideB() == A) && (corners.get(k).getState() == 2 ||
+							corners.get(k).getState() == 0)) {
 						return true;
 					}			
 				}

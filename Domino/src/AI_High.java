@@ -1,11 +1,24 @@
 import java.util.ArrayList;
-
+/**
+ * Represents the High level of AI
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class AI_High extends AI {
 
 	private ArrayList<Integer> counterSides = new ArrayList<Integer>();
 	int[] prioArrPerson;
 	Corner corner = null;
 	
+	/**
+	 * Sets up the best piece (the one with most priority) to add on the game table
+	 * 
+	 * @param table game table itself
+	 * @param person the only human player in the game
+	 * 
+	 * @post updates the player hand without the added piece
+	 * @post updates the pieces priority accordingly with the game turn
+	 */
 	public void addPiece(Table table, Person person) {
 		
 		Piece[] playerHand = getPlayerHand();
@@ -77,15 +90,15 @@ public class AI_High extends AI {
 			}
 			
 			corner = table.findPlayableCorner(A, B);
-			outer:
+//			outer:
 			if(corner!=null) {
-				for(int j = 0; j < prioArrPerson.length; j++) {
-					boolean isCounterCorner = corner.getPiece().getSideA()==prioArrPerson[j] && prioArrPerson[j]==0;
-					if(isCounterCorner) {
-						corner=null;
-						break outer;
-					}
-				}
+//				for(int j = 0; j < prioArrPerson.length; j++) {
+//					boolean isCounterCorner = corner.getPiece().getSideA()==prioArrPerson[j] && prioArrPerson[j]==0;
+//					if(isCounterCorner) {
+//						corner=null;
+//						break outer;
+//					}
+//				}
 				return i;
 			}
 		}

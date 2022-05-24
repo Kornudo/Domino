@@ -1,4 +1,9 @@
-
+/**
+ * Represents an AI in the game
+ * 
+ * @author José Lopes and João Leandro
+ * 
+ */
 public abstract class AI extends Player {
 	
 	public abstract void addPiece(Table table);

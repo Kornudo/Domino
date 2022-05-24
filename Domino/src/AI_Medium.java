@@ -1,8 +1,20 @@
-
+/**
+ * Represents the Medium level of AI
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class AI_Medium extends AI {
 	
 	Corner corner = null;
 	
+	/**
+	 * Sets up the best piece (the one with most priority) to add on the game table
+	 * 
+	 * @param table game table itself
+	 * 
+	 * @post updates the player hand without the added piece
+	 * @post updates the pieces priority accordingly with the game turn
+	 */
 	public void addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();

@@ -33,10 +33,10 @@ public class AI_High extends AI {
 			}
 			else break;
 		}
-			
+		
+		printPlay(playerHand[i], corner);
 		removePiece(playerHand[i]);
 		playerHand = getPlayerHand();
-		printPlay(playerHand[i], corner);
 		resetPrio();
 		return ;
 	}
@@ -52,8 +52,15 @@ public class AI_High extends AI {
 			int A = playerHand[i].getSideA();
 			int B = playerHand[i].getSideB();
 			int prio = playerHand[i].getPrio();			
-			boolean isCounterSide = (A == counterSides.get(i) || B == counterSides.get(i)) && prio > 999;
 			
+			boolean isCounterSide = false;
+			if(counterSides.size()!=0) {
+				for(int j = 0; j < counterSides.size(); j++) {
+					isCounterSide = (A == counterSides.get(j) || B == counterSides.get(j)) && prio > 999;
+					if(isCounterSide) break;
+				}
+			}
+				
 			if(isCounterSide) { 
 				if(A==counterSides.get(i)) corner = table.findPlayableCounterCorner(B);
 				else corner = table.findPlayableCounterCorner(A);
@@ -91,7 +98,7 @@ public class AI_High extends AI {
 		
 		Piece[] pH = getPlayerHand();
 		int length = pH.length;
-		if(pH[length].getPrio() > 999) return true;
+		if(pH[length-1].getPrio() > 999) return true;
 		
 		return false;
 	}
@@ -110,7 +117,7 @@ public class AI_High extends AI {
 			prio+=playerHand[i].getSideA();
 			prio+=playerHand[i].getSideB();
 			
-			for (int j = 0; j < prioArrPerson.length; i++) { // set counter priorities
+			for (int j = 0; j < prioArrPerson.length; j++) { // set counter priorities
 				if (prioArrPerson[j]==0) { // if player has no piece
 					int A = playerHand[i].getSideA();
 					int B = playerHand[i].getSideB();

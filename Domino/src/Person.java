@@ -42,8 +42,13 @@ public class Person extends Player {
 			addPiece(table);
 		}
 		
-		if(!table.addPiece(p, c)) {
-			System.out.println("PLAY NOT POSSBILE TRY AGAIN OR PASS MTF!");
+		if(first_in == loc_A || sec_in == loc_B || first_in == loc_B || sec_in == loc_A) {
+			if(!table.addPiece(p, c)) {
+				System.out.println("PLAY NOT POSSBILE TRY AGAIN OR PASS MTF!");
+				addPiece(table);
+			}
+		} else {
+			System.out.println("U TRYNA CHEATING? FUCK OFF");
 			addPiece(table);
 		}
 		

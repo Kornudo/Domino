@@ -102,17 +102,18 @@ public class Game {
 							AI_h2.addPiece(gameTable, P1);
 						else if(players[turn]==AI_h3)
 							AI_h3.addPiece(gameTable, P1);	
-						else
-							players[turn].addPiece(gameTable);
 					}
+					else
+						players[turn].addPiece(gameTable);
+					
 				
 				gameTable.printTable();
-//				try {
-//					TimeUnit.SECONDS.sleep(5);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if(players[turn].handEmpty()) { 
 					System.out.println("WINNER MTF IS JOSEVALDO " + players[turn]);
@@ -183,21 +184,30 @@ public class Game {
 		}
 		
 		createDeck();
-//		
-//		Piece[] h1 = {new Piece(0,2), new Piece(1,6), new Piece(1,3), new Piece(2,3), new Piece(0,1), new Piece(2,4), new Piece(0,6)};
-//		Piece[] h2 = {new Piece(5,5), new Piece(0,5), new Piece(3,4), new Piece(2,6), new Piece(1,2), new Piece(4,6), new Piece(5,6)};
-//		Piece[] h3 = {new Piece(0,4), new Piece(3,6), new Piece(4,5), new Piece(0,3), new Piece(4,4), new Piece(1,5), new Piece(2,5)};
-//		Piece[] h4 = {new Piece(2,2), new Piece(0,0), new Piece(1,4), new Piece(1,1), new Piece(3,5), new Piece(3,3), new Piece(6,6)};
 		
+		Piece[] h1 = {new Piece(1,3), new Piece(0,2), new Piece(4,5), new Piece(0,5), new Piece(3,6), new Piece(2,5), new Piece(3,5)};
+		Piece[] h2 = {new Piece(0,0), new Piece(3,3), new Piece(2,2), new Piece(4,4), new Piece(2,4), new Piece(1,5), new Piece(1,2)};
+		Piece[] h3 = {new Piece(4,6), new Piece(0,1), new Piece(5,6), new Piece(1,4), new Piece(5,5), new Piece(1,6), new Piece(0,6)};
+		Piece[] h4 = {new Piece(2,6), new Piece(3,4), new Piece(0,3), new Piece(1,1), new Piece(2,3), new Piece(0,4), new Piece(6,6)};
+		
+//		[<1,3> <0,2> <4,5> <0,5> <3,6> <2,5> <3,5>]
+//		[<0,0> <3,3> <2,2> <4,4> <2,4> <1,5> <1,2>]
+//		[<4,6> <0,1> <5,6> <1,4> <5,5> <1,6> <0,6>]
+//		[<2,6> <3,4> <0,3> <1,1> <2,3> <0,4> <6,6>]		
 //		AI0.setPlayerHand(h1);
 //		AI1.setPlayerHand(h2);
 //		AI2.setPlayerHand(h3);
 //		AI3.setPlayerHand(h4);	
 		
-		P1.setPlayerHand(dealHand());
-		AI_h1.setPlayerHand(dealHand());
-		AI_h2.setPlayerHand(dealHand());
-		AI_h3.setPlayerHand(dealHand());
+//		P1.setPlayerHand(dealHand());
+//		AI_h1.setPlayerHand(dealHand());
+//		AI_h2.setPlayerHand(dealHand());
+//		AI_h3.setPlayerHand(dealHand());
+		
+		P1.setPlayerHand(h1);
+		AI_h1.setPlayerHand(h2);
+		AI_h2.setPlayerHand(h3);
+		AI_h3.setPlayerHand(h4);
 		
 		placeFirstPiece();
 //		scan.close();

@@ -1,13 +1,22 @@
-import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ * Represents a Person in the game
+ * 
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class Person extends Player {
 	
 	final int ascii = 48;
 
+	/**
+	 * Receives user input to add user chosen piece in a specific corner
+	 * 
+	 * @param table game table itself
+	 * 
+	 * @post updates the player hand without the added piece
+	 */
 	public void addPiece(Table table) {	
-		
-		//if(!possiblePlay(table)) return ;
 		
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
@@ -57,7 +66,7 @@ public class Person extends Player {
 		return ;
 	}
 	
-	public Piece inHand(int A, int B) {		
+	private Piece inHand(int A, int B) {		
 		Piece[] playerHand = getPlayerHand();
 		
 		for(int i = 0; i < playerHand.length; i++) {
@@ -69,19 +78,5 @@ public class Person extends Player {
 		}
 		return null;
 	}
-	
-	public boolean possiblePlay(Table table) {
-		Piece[] playerHand = getPlayerHand();
-		ArrayList<Corner> corners = table.getCorners();
 
-		for(int i = 0; i < playerHand.length; i++) {
-			for(int j = 0; j < corners.size(); j++) {
-				int A = playerHand[i].getSideA();
-				int B = playerHand[i].getSideB();
-				int cornerSide = corners.get(j).getPiece().getSideA();
-				if(A==cornerSide||B==cornerSide) return true;
-			}
-		}
-		return false;
-	}
 }

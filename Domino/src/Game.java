@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class Game {
-	private Table gameTable = new Table(1,5);
+	private Table gameTable = new Table(3,10);
 	
 	private Person P1 = new Person();
 	private AI AI0;
@@ -103,7 +103,15 @@ public class Game {
 		return ;
 	}
 	
-	private void playGame() {
+	/**
+	 * Plays the game itself until there's a winner or no more
+	 * pieces can be played
+	 * 
+	 * @post turn is incremented by one and decremented to the
+	 * value of zero along the game
+	 *
+	 */
+	public void playGame() {
 		
 		startGame();
 		while(true) {
@@ -189,10 +197,10 @@ public class Game {
 				players[3] = AI_h3;		
 				break;
 			case TEST:
-				AI0 = new AI_Low();
-				AI1 = new AI_Low();
-				AI2 = new AI_Low();
-				AI3 = new AI_Low();
+				AI0 = new AI_Medium();
+				AI1 = new AI_Medium();
+				AI2 = new AI_Medium();
+				AI3 = new AI_Medium();
 				players[0] = AI0;
 				players[1] = AI1;
 				players[2] = AI2;

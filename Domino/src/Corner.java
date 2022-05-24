@@ -1,4 +1,11 @@
-
+/**
+ * Represents a Corner
+ * Corner has a direction (up,down,left,right), i/jPrint which help with
+ * the 
+ * adding pieces to the table, and gameTable them to console.
+ * @author José Lopes and João Leandro
+ * 
+ */
 public class Corner {
 	private String direction;
 	private int iPrint;

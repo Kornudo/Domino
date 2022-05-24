@@ -12,10 +12,10 @@ public class Person extends Player {
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
-		String choice = scan.nextLine();
-		if(choice.equals("pass")) return ;
-		
 		String pieceIn = scan.nextLine();
+		if(pieceIn.equals("pass")) return ;
+		
+		//String pieceIn = scan.nextLine();
 		String cornerIn = scan.nextLine();
 		
 		int first_in = (int)pieceIn.charAt(1)-ascii;

@@ -41,7 +41,7 @@ public abstract class Player {
 	}
 	
 	public void printPlay(Piece piece, Corner corner) {
-		//printHand();	
+		printHand();	
 		System.out.println("Peca jogada: " + "<" + piece.getSideA() + "," + piece.getSideB() + ">");
 		System.out.println("Corner jogado: " + "<" + corner.getPiece().getSideA() + "," + corner.getPiece().getSideB() + ">");	
 	}

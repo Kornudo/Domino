@@ -7,6 +7,7 @@ public class Game {
 	private Table gameTable = new Table(5, 7);
 	
 	private Person P1 = new Person();
+	private AI AI0;
 	private AI AI1; // DECLARE BOTS
 	private AI AI2;
 	private AI AI3;
@@ -25,7 +26,8 @@ public class Game {
 	enum Level {
 	    LOW,
 	    MEDIUM,
-	    HIGH
+	    HIGH,
+	    TEST
 	}
 	
 	public ArrayList<Piece> createDeck(){
@@ -86,11 +88,11 @@ public class Game {
 		startGame();
 		while(true) {
 			
-				//if(!gameTable.isPlayable(players)) endGame();
+				if(!gameTable.isPlayable(players)) return ;
 				
 				players[turn].printHand();
 			
-				if(!level.toString().equals("High")) 
+				if(!level.toString().equals("HIGH")) 
 					players[turn].addPiece(gameTable);
 				else
 					if(players[turn]!=P1) {
@@ -104,24 +106,25 @@ public class Game {
 							players[turn].addPiece(gameTable);
 					}
 				
-				if(turn!=3) turn++;
-				else turn = 0;
-				
 				gameTable.printTable();
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					TimeUnit.SECONDS.sleep(5);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
 				if(players[turn].handEmpty()) { 
+					System.out.println("WINNER MTF IS JOSEVALDO " + players[turn]);
 					for(int i = 0; i < 4; i++) 	
-						players[i].printScore();
-					break;
+						if(i!=turn)
+							players[i].printScore();
+					return ;
 				}
-		}	
-		return ;		
+				
+				if(turn!=3) turn++;
+				else turn = 0;
+		}		
 	}
 	
 	public void startGame() {
@@ -157,9 +160,22 @@ public class Game {
 				break;
 			case HIGH:
 				players[0] = P1;
+				AI_h1 = new AI_High();
+				AI_h2 = new AI_High();
+				AI_h3 = new AI_High();
 				players[1] = AI_h1;
 				players[2] = AI_h2;
 				players[3] = AI_h3;		
+				break;
+			case TEST:
+				AI0 = new AI_Medium();
+				AI1 = new AI_Medium();
+				AI2 = new AI_Medium();
+				AI3 = new AI_Medium();
+				players[0] = AI0;
+				players[1] = AI1;
+				players[2] = AI2;
+				players[3] = AI3;	
 				break;
 			default:
 				System.out.println("WRONG INPUT! TRY AGAIN!");
@@ -167,21 +183,21 @@ public class Game {
 		}
 		
 		createDeck();
+//		
+//		Piece[] h1 = {new Piece(0,2), new Piece(1,6), new Piece(1,3), new Piece(2,3), new Piece(0,1), new Piece(2,4), new Piece(0,6)};
+//		Piece[] h2 = {new Piece(5,5), new Piece(0,5), new Piece(3,4), new Piece(2,6), new Piece(1,2), new Piece(4,6), new Piece(5,6)};
+//		Piece[] h3 = {new Piece(0,4), new Piece(3,6), new Piece(4,5), new Piece(0,3), new Piece(4,4), new Piece(1,5), new Piece(2,5)};
+//		Piece[] h4 = {new Piece(2,2), new Piece(0,0), new Piece(1,4), new Piece(1,1), new Piece(3,5), new Piece(3,3), new Piece(6,6)};
 		
-		Piece[] h1 = {new Piece(0,2), new Piece(1,6), new Piece(1,3), new Piece(2,3), new Piece(0,1), new Piece(2,4), new Piece(0,6)};
-		Piece[] h2 = {new Piece(5,5), new Piece(0,5), new Piece(3,4), new Piece(2,6), new Piece(1,2), new Piece(4,6), new Piece(5,6)};
-		Piece[] h3 = {new Piece(0,4), new Piece(3,6), new Piece(4,5), new Piece(0,3), new Piece(4,4), new Piece(1,5), new Piece(2,5)};
-		Piece[] h4 = {new Piece(2,2), new Piece(0,0), new Piece(1,4), new Piece(1,1), new Piece(3,5), new Piece(3,3), new Piece(6,6)};
+//		AI0.setPlayerHand(h1);
+//		AI1.setPlayerHand(h2);
+//		AI2.setPlayerHand(h3);
+//		AI3.setPlayerHand(h4);	
 		
-		P1.setPlayerHand(h1);
-		AI1.setPlayerHand(h2);
-		AI2.setPlayerHand(h3);
-		AI3.setPlayerHand(h4);	
-		
-//		P1.setPlayerHand(dealHand());
-//		AI1.setPlayerHand(dealHand());
-//		AI2.setPlayerHand(dealHand());
-//		AI3.setPlayerHand(dealHand());
+		P1.setPlayerHand(dealHand());
+		AI_h1.setPlayerHand(dealHand());
+		AI_h2.setPlayerHand(dealHand());
+		AI_h3.setPlayerHand(dealHand());
 		
 		placeFirstPiece();
 //		scan.close();

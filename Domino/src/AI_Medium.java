@@ -1,15 +1,44 @@
 
 public class AI_Medium extends AI {
 	
-	Piece compare;
-	int count = 0;
+	Corner corner = null;
 	
 	public void addPiece(Table table) {
 		
 		Piece[] playerHand = getPlayerHand();
-		Corner corner = null;
+		Piece compare = null;
+		int count = 0;
 		definePrio();
-		playerHand = prioSort();
+		
+		int i = checkPlayables(table);
+		if(i==-1) return ; 
+		
+		while(true) {
+			if (!table.addPiece(playerHand[i], corner)) {
+				playerHand[i].setPrio(0);
+				playerHand = setPlayerHand(playerHand);
+				
+				if (count > 0 && compare == playerHand[i]) return;
+
+				if (count == 0) compare = playerHand[i];
+				count++;
+				
+				i = checkPlayables(table);
+				if(i==-1) return ;
+			}
+			else break;
+		}
+		
+		printPlay(playerHand[i], corner);
+		removePiece(playerHand[i]);
+		playerHand = getPlayerHand();
+		resetPrio();
+		return ;
+	}
+	
+	private int checkPlayables(Table table) {
+		Piece[] playerHand = getPlayerHand();
+		playerHand = setPlayerHand(prioSort());
 		
 		int i;
 		for(i = 0; i < playerHand.length; i++) {
@@ -19,22 +48,8 @@ public class AI_Medium extends AI {
 			if(corner!=null) break;
 		}
 		
-		if(corner==null) return ;	// if no play can be done	
-		
-		if(!table.addPiece(playerHand[i], corner)) {
-			playerHand[i].setPrio(0);
-			if(count>1 && compare==playerHand[i]) return ;
-			
-			if(count==0) compare = playerHand[i];
-			count++;
-			addPiece(table);
-			return ;
-		}
-		printPlay(playerHand[i], corner);
-		removePiece(playerHand[i]);
-		playerHand = getPlayerHand();
-		resetPrio();
-		return ;
+		if(corner==null) return -1;
+		else return i;
 	}
 	
 	private void definePrio() {
@@ -44,9 +59,11 @@ public class AI_Medium extends AI {
 		int[] prioArr = numberOfSameSides(playerHand);
 		
 		for(int i = 0; i < playerHand.length; i++) { 
-			if(playerHand[i].dual()) prio+=5;		
-			prio+=prioArr[playerHand[i].getSideA()]; // number of common
-			prio+=prioArr[playerHand[i].getSideB()];
+			if(playerHand[i].dual()) prio+=20;		
+			prio+=prioArr[playerHand[i].getSideA()]+7; // number of common
+			prio+=prioArr[playerHand[i].getSideB()]+7;
+			prio+=playerHand[i].getSideA();
+			prio+=playerHand[i].getSideB();
 			playerHand[i].setPrio(prio); // stacks with dual if needed
 			prio=0;
 		}

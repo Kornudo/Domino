@@ -27,6 +27,22 @@ public class AI_Medium extends AI {
 		
 		while(true) {
 			if (!table.addPiece(playerHand[i], corner)) {
+			
+				int A = corner.getPiece().getSideA();
+				int B = corner.getPiece().getSideB();
+				int stateCorner = corner.getState();
+				
+				Corner corner = table.findCorner(A, B);
+				
+				if(corner==null) return ;
+				
+				if(!playerHand[i].dual()) 
+					corner.setState(1);
+				else if(playerHand[i].dual())
+					corner.setState(2);
+				else if((playerHand[i].dual() && stateCorner==1) || (!playerHand[i].dual() && stateCorner==2))
+					corner.setState(3);
+				
 				playerHand[i].setPrio(0);
 				playerHand = setPlayerHand(playerHand);
 				

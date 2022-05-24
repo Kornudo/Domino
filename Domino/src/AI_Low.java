@@ -20,6 +20,7 @@ public class AI_Low extends AI {
 		Piece[] playerHand = getPlayerHand();
 		ArrayList<Piece> randomPiece = new ArrayList<Piece>();
 		ArrayList<Corner> randomCorner = new ArrayList<Corner>();
+		
 		int r;
 		
 		for (int i = 0; i < playerHand.length; i++) { 
@@ -34,6 +35,8 @@ public class AI_Low extends AI {
 		if(randomPiece.size()==0) return ; 
 		
 		r = rand.nextInt(randomPiece.size());
+		//printPlay(randomPiece.get(r), randomCorner.get(r));
+		
 		if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) {
 			
 			int A = randomCorner.get(r).getPiece().getSideA();
@@ -41,6 +44,9 @@ public class AI_Low extends AI {
 			int stateCorner = randomCorner.get(r).getState();
 			
 			Corner corner = table.findCorner(A, B);
+			
+			if(corner==null) return ;
+			
 			if(!randomPiece.get(r).dual()) 
 				corner.setState(1);
 			else if(randomPiece.get(r).dual())
@@ -49,7 +55,7 @@ public class AI_Low extends AI {
 				corner.setState(3);
 			
 			return ;
-		}
+		} 
 		printPlay(randomPiece.get(r), randomCorner.get(r));
 		removePiece(randomPiece.get(r));
 		return ;	

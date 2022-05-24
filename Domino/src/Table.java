@@ -61,7 +61,12 @@ public class Table {
 	}
 	
 	/**
-	 * FAIS ESSE ZOAO Q EU N SEI
+	 * Finds a playable corner with @param
+	 * 
+	 * @param A number on one side of a piece
+	 * @param B number on the other side of a piece
+	 * 
+	 * @return Corner found, if not null
 	 */
 	public Corner findPlayableCorner(int A, int B) { 
         for(int i = 0; i < corners.size(); i++) {
@@ -74,13 +79,11 @@ public class Table {
     }
 	
 	/**
-	 * Finds a Corner
+	 * Finds a Corner which can be played with @param
 	 * 
-	 * @param players array of players in the game
+	 * @param A the other side of the counter piece, so the counter side is an outer side
 	 * 
-	 * @pre players.length>0
-	 * 
-	 * @return boolean value
+	 * @return Corner found, if not null
 	 */
 	public Corner findPlayableCounterCorner(int A) { 
         for(int i = 0; i < corners.size(); i++) {
@@ -115,7 +118,7 @@ public class Table {
 	}
 	
 	/**
-	 * Finds an available corner that accepts a piece with side A or B
+	 * Checks if it's possible to keep playing the game
 	 * 
 	 * @param players array of players in the game
 	 * 
@@ -249,7 +252,7 @@ public class Table {
 	}
 	
 	private boolean collisionCheckUp(int y, int x) { //returns true if there is collision
-		if (y - 2 < 0) return true;
+		if (y - 2 < 0 || x - 1 < 0 || x + 1 > 6 * this.x - 6) return true;
 		if (y - 2 == 0) {
 			for(int i = y - 2; i < y + 3; i++) {
 				if (gameTable[i][x] == "x" || gameTable[i][x + 1] == "x" || gameTable[i][x - 1] == "x") return true; 
@@ -274,7 +277,7 @@ public class Table {
 	}
 	
 	private boolean collisionCheckDown(int y, int x) { //returns true if there is collision
-		if (y + 2 > 12 * this.y) return true;
+		if (y + 2 > 12 * this.y || x - 1 < 0 || x + 1 > 6 * this.x - 6) return true;
 		if (y + 2 == 12 * this.y) {
 			for(int i = y - 2; i < y + 3; i++) {
 				if (gameTable[i][x] == "x" || gameTable[i][x + 1] == "x" || gameTable[i][x - 1] == "x") return true; 
@@ -299,7 +302,7 @@ public class Table {
 	}
 	
 	private boolean collisionCheckLeft(int y, int x) { //returns true if there is collision
-		if (x - 1 < 0) return true;
+		if (x - 1 < 0 || y + 1 > 12 * this.y || y - 1 < 0) return true;
 		if (x - 1 == 0) {
 			for(int j = x - 1; j < x + 1; j++) {
 				if (gameTable[y][j] == "x" || gameTable[y - 1][j] == "x" || gameTable[y + 1][j] == "x") return true; 
@@ -325,7 +328,7 @@ public class Table {
 	}
 	
 	private boolean collisionCheckRight(int y, int x) { //returns true if there is collision
-		if (x > 6 * this.x - 6) return true;
+		if (x > 6 * this.x - 6 || y + 1 > 12 * this.y || y - 1 < 0) return true;
 		if (x == 6 * this.x - 6) {
 			for(int j = x - 1; j < x + 1; j++) {
 				if (gameTable[y][j] == "x" || gameTable[y - 1][j] == "x" || gameTable[y + 1][j] == "x") return true; 
@@ -638,13 +641,15 @@ public class Table {
 				if (!collision) {
 					if(outOfBoundsLeftDual(corner)) 
 						if(!handleOutOfBoundsLeftDual(corner)) return false;
-					if(outOfBoundsUp(corner)) 
+					if(outOfBoundsUp(corner)) {
 						if(!handleOutOfBoundsUpDual(corner.getiPrint())) return false;
-					else if(outOfBoundsDown(corner))
+					}
+					else if(outOfBoundsDown(corner)) {
 						if(!handleOutOfBoundsDown(corner)) return false;
+					}
 					addPieceLeft(piece, corner);
 					corners.remove(corner);
-					this.printTable();
+					//this.printTable();
 					return true;
 				}
 				else return false;
@@ -671,13 +676,15 @@ public class Table {
 				if (!collision) {
 					if(outOfBoundsRightDual(corner)) 
 						if(!handleOutOfBoundsRightDual(corner)) return false;
-					if(outOfBoundsUp(corner)) 
+					if(outOfBoundsUp(corner)) {
 						if(!handleOutOfBoundsUpDual(corner.getiPrint())) return false;
-					else if(outOfBoundsDown(corner))
+					}
+					else if(outOfBoundsDown(corner)) {
 						if(!handleOutOfBoundsDown(corner)) return false;
+					}
 					addPieceRight(piece, corner);
 					corners.remove(corner);
-					this.printTable();
+					//this.printTable();
 					return true;
 				}
 				else return false;
@@ -702,7 +709,7 @@ public class Table {
 			if (dual) {
 				collision = collisionCheckUpDual(corner.getiPrint(), corner.getjPrint());
 				if (!collision) {
-					if(outOfBoundsUpDual(corner)) 
+					if(outOfBoundsUpDual(corner))
 						if(!handleOutOfBoundsUpDual(corner.getiPrint() + 4)) return false;
 					if(outOfBoundsLeft(corner)) {
 						if(!handleOutOfBoundsLeft(corner)) return false;
@@ -712,7 +719,7 @@ public class Table {
 					}
 					addPieceUp(piece, corner);
 					corners.remove(corner);
-					this.printTable();
+					//this.printTable();
 					return true;
 				}
 				else return false;
@@ -740,7 +747,7 @@ public class Table {
 				}
 				addPieceDown(piece, corner);
 				corners.remove(corner);
-				this.printTable();
+				//this.printTable();
 				return true;
 			}
 			else return false;
@@ -755,7 +762,7 @@ public class Table {
 		addPieceDown(piece, corner);
 		}
 		corners.remove(corner);
-		this.printTable();
+		//this.printTable();
 		return true;
 	}
 	
@@ -860,7 +867,7 @@ public class Table {
 	}
 	
 	private boolean outOfBoundsDownDual(Corner corner) { // returns 0 if no pieces fit, 1 if only an horizontal piece fits, 2 if both vertical and horizontal pieces fit
-		if (corner.getiPrint() - 2 < downBoundaryIndex) { // a horizontal piece would be out of bounds
+		if (corner.getiPrint() - 2 > downBoundaryIndex) { // a horizontal piece would be out of bounds
 			return true;
 		}
 		return false;
@@ -1044,6 +1051,23 @@ public class Table {
 //		table.addPiece(new Piece(1, 2), table.findCorner(1, 0));
 
 		//TESTS y = 5; x = 7;
+		////////////////////////////////////////////////////////////////
+		//UNSOLVED BUG
+		table.addPiece(new Piece(6, 0), table.findCorner(6, 6));
+		table.addPiece(new Piece(6, 1), table.findCorner(6, 6));
+		table.addPiece(new Piece(6, 2), table.findCorner(6, 6));
+		table.addPiece(new Piece(6, 3), table.findCorner(6, 6));
+		table.addPiece(new Piece(6, 3), table.findCorner(6, 3));
+		table.addPiece(new Piece(3, 3), table.findCorner(6, 3));
+		table.addPiece(new Piece(6, 3), table.findCorner(3, 3));
+		table.addPiece(new Piece(6, 6), table.findCorner(6, 3));
+		////////////////////////////////////////////////////////////////
+		//SOLVED BUG
+//		table.addPiece(new Piece(6, 0), table.findCorner(6, 6));
+//		table.addPiece(new Piece(6, 1), table.findCorner(6, 6));
+//		table.addPiece(new Piece(6, 2), table.findCorner(6, 6));
+//		table.addPiece(new Piece(6, 3), table.findCorner(6, 6));
+//		table.addPiece(new Piece(3, 3), table.findCorner(6, 3));
 		////////////////////////////////////////////////////////////////
 		//SOLVED BUG
 //		table.addPiece(new Piece(6, 0), table.findCorner(6, 6));
@@ -1396,6 +1420,6 @@ public class Table {
 //		table.addPiece(new Piece(0, 3), table.findCorner(3, 4)); //down
 //		table.addPiece(new Piece(4, 0), table.findCorner(0, 3)); //down
 		
-		table.printTable();
+//		table.printTable();
 	}
 }

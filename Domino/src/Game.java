@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class Game {
-	private Table gameTable = new Table(5, 7);
+	private Table gameTable = new Table(1,5);
 	
 	private Person P1 = new Person();
 	private AI AI0;
@@ -89,12 +89,29 @@ public class Game {
 		}
 	}
 	
+	private void printWinnerScore() {
+		System.out.println("WINNER MTF IS JOSEVALDO " + players[turn]);
+		for(int i = 0; i < 4; i++) 	
+			if(i!=turn)
+				players[i].printScore();
+		return ;
+	}
+	
+	private void printDraftScore() {
+		for(int i = 0; i < 4; i++) 	
+			players[i].printScore();
+		return ;
+	}
+	
 	private void playGame() {
 		
 		startGame();
 		while(true) {
 			
-				if(!gameTable.isPlayable(players)) return ;
+				if(!gameTable.isPlayable(players)) {
+					printDraftScore();
+					return ;
+				}
 				
 				players[turn].printHand();
 			
@@ -114,18 +131,15 @@ public class Game {
 					
 				
 				gameTable.printTable();
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					TimeUnit.SECONDS.sleep(5);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
 				if(players[turn].handEmpty()) { 
-					System.out.println("WINNER MTF IS JOSEVALDO " + players[turn]);
-					for(int i = 0; i < 4; i++) 	
-						if(i!=turn)
-							players[i].printScore();
+					printWinnerScore();
 					return ;
 				}
 				
@@ -200,15 +214,15 @@ public class Game {
 //		[<0,0> <3,3> <2,2> <4,4> <2,4> <1,5> <1,2>]
 //		[<4,6> <0,1> <5,6> <1,4> <5,5> <1,6> <0,6>]
 //		[<2,6> <3,4> <0,3> <1,1> <2,3> <0,4> <6,6>]		
-//		AI0.setPlayerHand(h1);
-//		AI1.setPlayerHand(h2);
-//		AI2.setPlayerHand(h3);
-//		AI3.setPlayerHand(h4);	
+		AI0.setPlayerHand(dealHand());
+		AI1.setPlayerHand(dealHand());
+		AI2.setPlayerHand(dealHand());
+		AI3.setPlayerHand(dealHand());	
 		
-		P1.setPlayerHand(dealHand());
-		AI_h1.setPlayerHand(dealHand());
-		AI_h2.setPlayerHand(dealHand());
-		AI_h3.setPlayerHand(dealHand());
+//		P1.setPlayerHand(dealHand());
+//		AI_h1.setPlayerHand(dealHand());
+//		AI_h2.setPlayerHand(dealHand());
+//		AI_h3.setPlayerHand(dealHand());
 		
 //		P1.setPlayerHand(h1);
 //		AI_h1.setPlayerHand(h2);

@@ -7,6 +7,7 @@
  */
 public abstract class Player {
 	private Piece[] playerHand = new Piece[7];
+	private boolean pass = false;
 	
 	public abstract void addPiece(Table table);
 	
@@ -96,6 +97,15 @@ public abstract class Player {
 	public Piece[] setPlayerHand(Piece[] playerHand) {
 		this.playerHand = playerHand;
 		return playerHand;
+	}
+	
+	public boolean getPass() {
+		return this.pass;
+	}
+	
+	public boolean setPass(boolean pass) {
+		this.pass = pass;
+		return pass;
 	}
 
 }

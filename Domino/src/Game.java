@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class Game {
-	private Table gameTable = new Table(3,10);
+	private Table gameTable = new Table(5,7);
 	
 	private Person P1 = new Person();
 	private AI AI0;
@@ -116,10 +116,10 @@ public class Game {
 		startGame();
 		while(true) {
 			
-				if(!gameTable.isPlayable(players)) {
-					printDraftScore();
-					return ;
-				}
+//				if(!gameTable.isPlayable(players)) {
+//					printDraftScore();
+//					return ;
+//				}
 				
 				players[turn].printHand();
 			
@@ -146,13 +146,31 @@ public class Game {
 //					e.printStackTrace();
 //				}
 				
+				if(turn==3) {
+					boolean isDraft = true;
+					for(int i = 0; i < 4; i++) {
+						if(players[i].getPass()==false)
+							isDraft=false;
+					}
+					
+					if(isDraft==true) { 
+						printDraftScore();
+						return ;
+					}
+				}
+				
 				if(players[turn].handEmpty()) { 
 					printWinnerScore();
 					return ;
 				}
 				
 				if(turn!=3) turn++;
-				else turn = 0;
+				else {
+					for(int i = 0; i < 4; i++) {
+						players[i].setPass(false);
+					}		
+					turn = 0;
+				}
 		}		
 	}
 	
@@ -197,10 +215,10 @@ public class Game {
 				players[3] = AI_h3;		
 				break;
 			case TEST:
-				AI0 = new AI_Medium();
-				AI1 = new AI_Medium();
-				AI2 = new AI_Medium();
-				AI3 = new AI_Medium();
+				AI0 = new AI_Low();
+				AI1 = new AI_Low();
+				AI2 = new AI_Low();
+				AI3 = new AI_Low();
 				players[0] = AI0;
 				players[1] = AI1;
 				players[2] = AI2;
@@ -213,10 +231,10 @@ public class Game {
 		
 		createDeck();
 		
-		Piece[] h1 = {new Piece(1,3), new Piece(0,2), new Piece(4,5), new Piece(0,5), new Piece(3,6), new Piece(2,5), new Piece(3,5)};
-		Piece[] h2 = {new Piece(0,0), new Piece(3,3), new Piece(2,2), new Piece(4,4), new Piece(2,4), new Piece(1,5), new Piece(1,2)};
-		Piece[] h3 = {new Piece(4,6), new Piece(0,1), new Piece(5,6), new Piece(1,4), new Piece(5,5), new Piece(1,6), new Piece(0,6)};
-		Piece[] h4 = {new Piece(2,6), new Piece(3,4), new Piece(0,3), new Piece(1,1), new Piece(2,3), new Piece(0,4), new Piece(6,6)};
+//		Piece[] h1 = {new Piece(1,3), new Piece(0,2), new Piece(4,5), new Piece(0,5), new Piece(3,6), new Piece(2,5), new Piece(3,5)};
+//		Piece[] h2 = {new Piece(0,0), new Piece(3,3), new Piece(2,2), new Piece(4,4), new Piece(2,4), new Piece(1,5), new Piece(1,2)};
+//		Piece[] h3 = {new Piece(4,6), new Piece(0,1), new Piece(5,6), new Piece(1,4), new Piece(5,5), new Piece(1,6), new Piece(0,6)};
+//		Piece[] h4 = {new Piece(2,6), new Piece(3,4), new Piece(0,3), new Piece(1,1), new Piece(2,3), new Piece(0,4), new Piece(6,6)};
 		
 //		[<1,3> <0,2> <4,5> <0,5> <3,6> <2,5> <3,5>]
 //		[<0,0> <3,3> <2,2> <4,4> <2,4> <1,5> <1,2>]
@@ -227,16 +245,18 @@ public class Game {
 		AI2.setPlayerHand(dealHand());
 		AI3.setPlayerHand(dealHand());	
 		
-//		P1.setPlayerHand(dealHand());
-//		AI_h1.setPlayerHand(dealHand());
-//		AI_h2.setPlayerHand(dealHand());
-//		AI_h3.setPlayerHand(dealHand());
-		
-//		P1.setPlayerHand(h1);
-//		AI_h1.setPlayerHand(h2);
-//		AI_h2.setPlayerHand(h3);
-//		AI_h3.setPlayerHand(h4);
-		
+//		if(!level.toString().equals("HIGH")) {
+//			P1.setPlayerHand(dealHand());
+//			AI1.setPlayerHand(dealHand());
+//			AI2.setPlayerHand(dealHand());
+//			AI3.setPlayerHand(dealHand());	
+//		}
+//		else {
+//			P1.setPlayerHand(dealHand());
+//			AI_h1.setPlayerHand(dealHand());
+//			AI_h2.setPlayerHand(dealHand());
+//			AI_h3.setPlayerHand(dealHand());
+//		}
 		placeFirstPiece();
 //		scan.close();
 	}

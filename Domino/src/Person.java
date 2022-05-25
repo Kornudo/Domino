@@ -22,7 +22,10 @@ public class Person extends Player {
 		Scanner scan = new Scanner(System.in);
 		
 		String pieceIn = scan.nextLine();
-		if(pieceIn.equals("pass")) return ;
+		if(pieceIn.equals("pass")) {
+			this.setPass(true);
+			return ;
+		}
 		
 		//String pieceIn = scan.nextLine();
 		String cornerIn = scan.nextLine();

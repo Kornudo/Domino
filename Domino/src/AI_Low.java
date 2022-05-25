@@ -1,12 +1,13 @@
 import java.util.ArrayList;
-import java.util.Random;
+
 /**
  * Represents the Lowest level of AI
- * @author JosÈ Lopes and Jo„o Leandro
+ * @author Jos√© Lopes and Jo√£o Leandro
  * 
  */
 public class AI_Low extends AI {
-	private Random rand = new Random();
+	//private Random rand = new Random();
+	Corner c = null;
 	
 	/**
 	 * Sets up a random piece to add on the game table
@@ -17,99 +18,73 @@ public class AI_Low extends AI {
 	 */
 	public void addPiece(Table table) {
 		
+//		ArrayList<Corner> corners = table.getCorners();
 		Piece[] playerHand = getPlayerHand();
-//		ArrayList<Piece> randomPiece = new ArrayList<Piece>();
-//		ArrayList<Corner> randomCorner = new ArrayList<Corner>();
-		
-//		int r;
-		
-		for (int i = 0; i < playerHand.length; i++) { 
-//			ArrayList<Corner> piecePlayables = givePlayableCorners(table, playerHand[i]);
-//			if(piecePlayables.size()!=0) {
-//				r = rand.nextInt(piecePlayables.size());
-//				randomPiece.add(playerHand[i]);
-//				randomCorner.add(piecePlayables.get(r));
-//			}	
-			
-			
-			
-			
+		Piece toCompare = null;
+		int i = getPlayable(table);
+		if(i!=-1)
+			toCompare = playerHand[i];
+		else {
+			this.setPass(true);
+			return;
 		}
-		
-		if(randomPiece.size()==0) return ; 
-		
-		r = rand.nextInt(randomPiece.size());
-		//printPlay(randomPiece.get(r), randomCorner.get(r));
-		
+		int count = 0;
+
 		while(true) {
-			if(!table.addPiece(randomPiece.get(r), randomCorner.get(r))) {
+			if(!table.addPiece(playerHand[i], c)) {
 				
-				int A = randomCorner.get(r).getPiece().getSideA();
-				int B = randomCorner.get(r).getPiece().getSideB();
-				int stateCorner = randomCorner.get(r).getState();
+				int A = c.getPiece().getSideA();
+				int B = c.getPiece().getSideB();
+				//int stateCorner = c.getState();
 				
-				Corner corner = table.findCorner(A, B);
+				Corner corner = table.findCorner(A, B);				
+				if(corner==null) {
+					this.setPass(true);
+					return ;
+				}							
 				
-				if(corner==null) return ;
-				
-				if(!randomPiece.get(r).dual()) 
-					corner.setState(1);
-				else if(randomPiece.get(r).dual())
-					corner.setState(2);
-				else if((randomPiece.get(r).dual() && stateCorner==1) || (!randomPiece.get(r).dual() && stateCorner==2))
-					corner.setState(3);
-				
-				randomPiece.remove(r);
-				randomCorner.remove(r);	
-				r = rand.nextInt(randomPiece.size());
+				shiftRight(playerHand[i], i);
+				if(playerHand[i]==toCompare && count>0) {
+					this.setPass(true);
+					return ;
+				}
+				count++;
+				i = getPlayable(table);
+				if(i==-1) {
+					this.setPass(true);
+					return ;
+				}
 			}
 			else break;
 		} 
 		
-		printPlay(randomPiece.get(r), randomCorner.get(r));
-		removePiece(randomPiece.get(r));
+		printPlay(playerHand[i], c);
+		removePiece(playerHand[i]);
 		return ;	
 	}
 	
-//	private ArrayList<Corner> givePlayableCorners(Table table, Piece piece) {	
-//		ArrayList<Corner> temp = new ArrayList<Corner>(); ;
-//		ArrayList<Corner> corners = table.getCorners();
-//		Corner toCompareDual = findFirstDualCorner(table);
-//		boolean isStarted = false;
-//		
-//		for(int i = 0; i < corners.size(); i++) {
-//			int oS = corners.get(i).getPiece().getSideA();	
-//			if (piece.getSideA() == oS || piece.getSideB() == oS) {
-//				if (corners.get(i).getPiece().dual()) {
-//					Corner index = corners.get(i);				
-//					int A = toCompareDual.getPiece().getSideA();
-//					int B = index.getPiece().getSideA();
-//					
-//					if(!isStarted) {
-//						temp.add(toCompareDual);
-//						isStarted = true;
-//					}
-//					
-//					if (A!=B) {
-//						temp.add(index);
-//						toCompareDual = index;
-//					}
-//					continue;
-//				}
-//				temp.add(corners.get(i));
-//			}
-//		}
-//		return temp;
-//	}
-//	
-//	private Corner findFirstDualCorner(Table table) {
-//		ArrayList<Corner> corners = table.getCorners();
-//		
-//		for(int i = 0; i < corners.size(); i++) {
-//			if(corners.get(i).getPiece().dual())
-//				return corners.get(i);
-//		}
-//		return null;
-//	}
+	private void shiftRight(Piece piece, int index) {
+		Piece[] playerHand = getPlayerHand();
+		for(int i = index; i < playerHand.length-1; i++) {
+			Piece temp = playerHand[i];
+			playerHand[i] = playerHand[i+1];
+			playerHand[i+1] = temp;
+		}
+	}
+	
+	private int getPlayable(Table table) {
+		Piece[] playerHand = getPlayerHand();
+		int i;
+		for (i = 0; i < playerHand.length; i++) { 			
+			int A = playerHand[i].getSideA();
+			int B = playerHand[i].getSideB();
+			c = table.findPlayableCorner(A, B);
+			if(c!=null) break ;	
+		}
+		
+		if(c==null) return -1;
+		else return i;
+	}
 	
 }
+	

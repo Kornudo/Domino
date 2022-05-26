@@ -37,37 +37,25 @@ public class AI_High extends AI {
 			return ;
 		}
 		
-		while(true) {
-			if (!table.addPiece(playerHand[i], corner)) {
-				
-				int A = corner.getPiece().getSideA();
-				int B = corner.getPiece().getSideB();
-				
-				Corner corner = table.findCorner(A, B);
-				
-				if(corner==null) {
-					this.setPass(true);
-					return ;
-				}
-				
-				playerHand[i].setPrio(0);
-				playerHand = setPlayerHand(playerHand);
-				
-				if (count > 0 && compare == playerHand[i]) {
-					this.setPass(true);
-					return;
-				}
+		while (!table.addPiece(playerHand[i], corner)) {
 
-				if (count == 0) compare = playerHand[i];
-				count++;
-				
-				i = checkPlayables(table);
-				if(i==-1) {
-					this.setPass(true);
-					return ;
-				}
+			playerHand[i].setPrio(0);
+			playerHand = setPlayerHand(playerHand);
+
+			if (count > 0 && compare == playerHand[i]) {
+				this.setPass(true);
+				return;
 			}
-			else break;
+
+			if (count == 0)
+				compare = playerHand[i];
+			count++;
+
+			i = checkPlayables(table);
+			if (i == -1) {
+				this.setPass(true);
+				return;
+			}
 		}
 		
 		printPlay(playerHand[i], corner);
@@ -104,8 +92,8 @@ public class AI_High extends AI {
 				if(corner!=null) return i;
 				
 				//if(handOfCounters) {
-					if(A==counterSides.get(i)) corner = table.findPlayableCounterCorner(A);
-					else corner = table.findPlayableCounterCorner(B);
+				if(A==counterSides.get(i)) corner = table.findPlayableCounterCorner(A);
+				else corner = table.findPlayableCounterCorner(B);
 				//}
 				
 				if(corner!=null) return i;		

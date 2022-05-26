@@ -139,12 +139,12 @@ public class Game {
 					
 				
 				gameTable.printTable();
-//				try {
-//					TimeUnit.SECONDS.sleep(5);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if(turn==3) {
 					boolean isDraft = true;

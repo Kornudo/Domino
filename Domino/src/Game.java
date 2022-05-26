@@ -16,7 +16,7 @@ public class Game {
 	private AI AI0;
 	private AI AI1; // DECLARE BOTS
 	private AI AI2;
-	private AI AI3;
+	private AI AI3;s
 	
 	private AI_High AI_h1;
 	private AI_High AI_h2;
@@ -206,10 +206,10 @@ public class Game {
 				players[3] = AI3;
 				break;
 			case HIGH:
-				players[0] = P1;
 				AI_h1 = new AI_High();
 				AI_h2 = new AI_High();
 				AI_h3 = new AI_High();
+				players[0] = P1;
 				players[1] = AI_h1;
 				players[2] = AI_h2;
 				players[3] = AI_h3;		

@@ -27,40 +27,35 @@ public class AI_High extends AI {
 		definePrio(person);
 		
 		int i = checkPlayables(table);
-		if(i==-1) return ; 
+		if(i==-1) {
+			this.setPass(true);
+			return ; 
+		}
 		
-		if(corner==null) return ;
+		if(corner==null) {
+			this.setPass(true);
+			return ;
+		}
 		
-		while(true) {
-			if (!table.addPiece(playerHand[i], corner)) {
-				
-				int A = corner.getPiece().getSideA();
-				int B = corner.getPiece().getSideB();
-				int stateCorner = corner.getState();
-				
-				Corner corner = table.findCorner(A, B);
-				
-				if(corner==null) return ;
-				
-				if(!playerHand[i].dual()) 
-					corner.setState(1);
-				else if(playerHand[i].dual())
-					corner.setState(2);
-				else if((playerHand[i].dual() && stateCorner==1) || (!playerHand[i].dual() && stateCorner==2))
-					corner.setState(3);
-				
-				playerHand[i].setPrio(0);
-				playerHand = setPlayerHand(playerHand);
-				
-				if (count > 0 && compare == playerHand[i]) return;
+		while (!table.addPiece(playerHand[i], corner)) {
 
-				if (count == 0) compare = playerHand[i];
-				count++;
-				
-				i = checkPlayables(table);
-				if(i==-1) return ;
+			playerHand[i].setPrio(0);
+			playerHand = setPlayerHand(playerHand);
+
+			if (count > 0 && compare == playerHand[i]) {
+				this.setPass(true);
+				return;
 			}
-			else break;
+
+			if (count == 0)
+				compare = playerHand[i];
+			count++;
+
+			i = checkPlayables(table);
+			if (i == -1) {
+				this.setPass(true);
+				return;
+			}
 		}
 		
 		printPlay(playerHand[i], corner);
@@ -74,7 +69,7 @@ public class AI_High extends AI {
 		Piece[] playerHand = getPlayerHand();
 		playerHand = setPlayerHand(prioSort());
 		
-		boolean handOfCounters = handOfCounters(table); // if the hand is only with counter moves
+		//boolean handOfCounters = handOfCounters(table); // if the hand is only with counter moves
 		
 		int i;
 		for(i = 0; i < playerHand.length; i++) {
@@ -96,10 +91,10 @@ public class AI_High extends AI {
 				
 				if(corner!=null) return i;
 				
-				if(handOfCounters) {
-					if(A==counterSides.get(i)) corner = table.findPlayableCounterCorner(A);
-					else corner = table.findPlayableCounterCorner(B);
-				}
+				//if(handOfCounters) {
+				if(A==counterSides.get(i)) corner = table.findPlayableCounterCorner(A);
+				else corner = table.findPlayableCounterCorner(B);
+				//}
 				
 				if(corner!=null) return i;		
 				continue;
@@ -123,14 +118,14 @@ public class AI_High extends AI {
 		else return i;
 	}
 	
-	private boolean handOfCounters(Table table) {
-		
-		Piece[] pH = getPlayerHand();
-		int length = pH.length;
-		if(pH[length-1].getPrio() > 999) return true;
-		
-		return false;
-	}
+//	private boolean handOfCounters(Table table) {
+//		
+//		Piece[] pH = getPlayerHand();
+//		int length = pH.length;
+//		if(pH[length-1].getPrio() > 999) return true;
+//		
+//		return false;
+//	}
 	
 	private void definePrio(Person person) {
 		

@@ -16,7 +16,7 @@ public class Game {
 	private AI AI0;
 	private AI AI1; // DECLARE BOTS
 	private AI AI2;
-	private AI AI3;s
+	private AI AI3;
 	
 	private AI_High AI_h1;
 	private AI_High AI_h2;

@@ -49,8 +49,10 @@ public class AI_Medium extends AI {
 			}
 		}
 		
-		printPlay(playerHand[i], corner);
+		Piece play = playerHand[i];
 		removePiece(playerHand[i]);
+		printPlay(play, corner);	
+
 		playerHand = getPlayerHand();
 		resetPrio();
 		return ;

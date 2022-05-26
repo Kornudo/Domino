@@ -43,9 +43,10 @@ public class AI_Low extends AI {
 					if(c==null) break;
 					
 					if(table.addPiece(playerHand[i], c)) {
-						printPlay(playerHand[i], c);
+						Piece play = playerHand[i];
 						removePiece(playerHand[i]);
-						return ;	
+						printPlay(play, c);	
+						return ;
 					}
 					index++;
 				}
@@ -59,8 +60,9 @@ public class AI_Low extends AI {
 				count++;				
 			}
 		
-		printPlay(playerHand[i], c);
+		Piece play = playerHand[i];
 		removePiece(playerHand[i]);
+		printPlay(play, c);
 		return ;	
 	}
 	
